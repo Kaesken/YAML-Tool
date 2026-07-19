@@ -2715,6 +2715,19 @@ function downloadYAML(){
       ()=>{goStep(0);const el=document.getElementById('charName');if(el){if(el.scrollIntoView)el.scrollIntoView({block:'center'});el.focus();}});
     return;
   }
+  const validBlocks=S.trainingList.filter(b=>b.skills.length&&(b.scripts||'').trim());
+  if(!validBlocks.length){
+    showErrorBox('Training List required',
+      'Add at least one Training List block with skills and scripts before downloading — T2 needs this to know what to train.',
+      ()=>{goStep(0);const el=document.getElementById('training-blocks');if(el&&el.scrollIntoView)el.scrollIntoView({block:'center'});});
+    return;
+  }
+  if(!S.huntZones.length){
+    showErrorBox('Hunting Zones required',
+      'Add at least one hunting zone before downloading — combat-trainer needs somewhere to hunt.',
+      ()=>{goStep(0);const el=document.getElementById('huntZoneInput');if(el){if(el.scrollIntoView)el.scrollIntoView({block:'center'});el.focus();}});
+    return;
+  }
   const name=raw.charAt(0).toUpperCase()+raw.slice(1);
   const filename=`${name}-setup.yaml`;
   const yaml=document.getElementById('yaml-pre').textContent;
