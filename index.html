@@ -167,6 +167,24 @@ select option{background:var(--bg3)}
         <b>Discord:</b> kirinartistry
       </p>
     </div>
+    <div style="margin-top:14px;padding:2px 4px">
+      <div style="font-size:13px;color:var(--blue);font-weight:bold;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px">📖 What is the YAML Tool?</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.8;margin:0 0 10px">
+        The YAML Tool is a <b style="color:var(--text)">work-in-progress, hands-on tutorial</b> for building your very first character setup YAML.
+        It walks you through each part of a basic setup — character info, gear, weapons, spells and abilities, hunting, crafting, and your training list —
+        one section at a time, in an order that makes sense.
+      </p>
+      <p style="font-size:13px;color:var(--text2);line-height:1.8;margin:0 0 10px">
+        <b style="color:var(--text)">This is designed to be a learning tool, not intended to become a quick generator.</b> The goal is not to click through as fast as possible and
+        walk away with a file — it's to <b style="color:var(--text)">understand what you're building</b>. Every section includes hints on its fields, and every
+        setting you enter appears instantly in a <b style="color:var(--blue2)">📋 YAML Preview</b> showing exactly how it will be written into your file, along
+        with a description of what that setting actually does in game.
+      </p>
+      <p style="font-size:13px;color:var(--text2);line-height:1.8;margin:0">
+        Please <b style="color:var(--text)">take the time and effort to read the information provided</b> as you go — the hints, the previews, and the
+        descriptions are the tutorial. If something is still unclear after reading, questions are welcome on Discord: <b style="color:var(--blue2)">kirinartistry</b>.
+      </p>
+    </div>
   </div>
   <div class="card">
     <div class="sec-head">Character basics</div>
@@ -444,7 +462,8 @@ select option{background:var(--bg3)}
     <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Type <b style="color:var(--blue2)">INV WEAPONS FULL</b> in-game. Enter adjective noun for each slot you train. Leave blank to skip. Use the toggles to set whether each weapon is worn, swappable, or wielded — these go into the <b style="color:var(--blue2)">gear:</b> section automatically.</p>
     <div id="weapon-slots"></div>
     <div class="g2" style="margin-top:10px">
-      <div><label class="lbl">Dance skill <span class="hint">weapon trained via dance actions</span></label><input type="text" id="danceSkill"></div>
+      <div><label class="lbl">Dance skill <span class="hint">weapon SKILL trained via dance actions — not the weapon itself</span></label>
+        <select id="danceSkill" onchange="updateCurrentPreview()"><option value="">— choose skill —</option><option>Brawling</option><option>Small Edged</option><option>Large Edged</option><option>Twohanded Edged</option><option>Small Blunt</option><option>Large Blunt</option><option>Twohanded Blunt</option><option>Staves</option><option>Polearms</option><option>Offhand Weapon</option><option>Bow</option><option>Crossbow</option><option>Slings</option><option>Light Thrown</option><option>Heavy Thrown</option></select></div>
       <div><label class="lbl">Fatigue regen action</label><input type="text" id="fatigueRegenAction"></div>
     </div>
     <div class="g2" style="margin-top:4px">
@@ -1370,7 +1389,7 @@ function parseContainers(){
   // Detect briefinv OFF — full article descriptions have many words (5+) and 50+ chars
   const longLines = lines.filter(l=>l.trim().split(/\s+/).length > 4 && l.trim().length > 45);
   if(longLines.length >= 2){
-    countEl.innerHTML = `<span style="color:var(--red);font-size:13px">⚠ Looks like <b>briefinv</b> is not on. Type <b>toggle briefinv</b> in-game, run <b>INV CONTAINER</b> again, and paste the new output.</span>`;
+    countEl.innerHTML = `<span style="color:var(--red);font-size:13px">⚠ Looks like <b>briefinv</b> is not on. Type <b>TOGGLE BRIEFINV</b> in-game, run <b>INV CONTAINER</b> again, and paste the new output.</span>`;
     return;
   }
 
@@ -1387,7 +1406,7 @@ function parseContainers(){
 
   countEl.innerHTML = S.parsedContainers.length
     ? `<span style="color:var(--green);font-size:13px">✓ Found ${S.parsedContainers.length} containers — check the ones you want to use</span>`
-    : `<span style="color:var(--red);font-size:13px">No containers found — check format or make sure briefinv is on</span>`;
+    : `<span style="color:var(--red);font-size:13px">No containers found — check format or make sure TOGGLE BRIEFINV is on</span>`;
   renderContainerChecklist();
   syncContainers();
 }
@@ -1575,7 +1594,7 @@ function togWeaponFlag(slot, flag){
             </div>
             <div style="display:flex;align-items:center;gap:5px;cursor:pointer" onclick="togWeaponFlag('${slot}','swappable')">
               <div class="toggle-track toggle-mini" id="wf-${sid}-swappable"><div class="toggle-thumb"></div></div>
-              <span style="font-size:11px;color:var(--text2)">swap</span>
+              <span style="font-size:11px;color:var(--text2)">swappable</span>
             </div>
             <div style="display:flex;align-items:center;gap:5px;cursor:pointer" onclick="togWeaponFlag('${slot}','wield')">
               <div class="toggle-track toggle-mini" id="wf-${sid}-wield"><div class="toggle-thumb"></div></div>
@@ -2328,7 +2347,7 @@ function parseCombatGear(){
   // Detect briefinv OFF — full descriptions have many words with articles
   const longLines = lines.filter(l=>l.trim().split(/\s+/).length > 4 && l.trim().length > 45);
   if(longLines.length >= 2){
-    countEl.innerHTML = `<span style="color:var(--red);font-size:13px">⚠ Looks like <b>briefinv</b> is not on. Type <b>toggle briefinv</b> in-game, run <b>INV COMBAT</b> again, and paste the new output.</span>`;
+    countEl.innerHTML = `<span style="color:var(--red);font-size:13px">⚠ Looks like <b>BRIEFINV</b> is not on. Type <b>TOGGLE BRIEFINV</b> in-game, run <b>INV COMBAT</b> again, and paste the new output.</span>`;
     return;
   }
 
@@ -2351,7 +2370,7 @@ function parseCombatGear(){
 
   countEl.innerHTML = added
     ? `<span style="color:var(--green);font-size:13px">✓ Added ${added} armor piece${added!==1?'s':''} — use the toggles to mark each as worn or hinders lockpicking</span>`
-    : `<span style="color:var(--text3);font-size:13px">No new pieces found — check format or make sure briefinv is on</span>`;
+    : `<span style="color:var(--text3);font-size:13px">No new pieces found — check format or make sure TOGGLE BRIEFINV is on</span>`;
   renderArmorGearList();
 }
 
@@ -2401,7 +2420,7 @@ function renderGearItem(g, type, idx, listEl){
     badges += g.hinders ? '<span class="badge red">hinders</span>' : '<span class="badge green">armor</span>';
   } else {
     if(g.isWorn) badges += '<span class="badge green">worn</span>';
-    if(g.swappable) badges += '<span class="badge blue">swap</span>';
+    if(g.swappable) badges += '<span class="badge blue">swappable</span>';
     if(g.wield) badges += '<span class="badge amber">wield</span>';
     if(g.container) badges += '<span class="badge purple">container</span>';
     if(g.skipRepair) badges += '<span class="badge red">no repair</span>';
@@ -3499,7 +3518,7 @@ function previewContainers(){
   if(S.containers.length){
     rows.push({
       yaml: `storage_containers:\n${S.containers.map(c=>`  - ${c}`).join('\n')}`,
-      explain: `<b>storage_containers</b> is the list of bags scripts will put loot and items into. Order matters — scripts fill the first bag first. Use <b>INV CONTAINER</b> in-game (with briefinv ON) to get the adjective noun format. You need at least 2 containers that are NOT your autoloot containers.`
+      explain: `<b>storage_containers</b> is the list of bags scripts will put loot and items into. Order matters — scripts fill the first bag first. Use <b>INV CONTAINER</b> in-game (with TOGGLE BRIEFINV) to get the adjective noun format. You need at least 2 containers that are NOT your autoloot containers.`
     });
   }
   makePreviewPanel(1, rows.length ? rows : [{yaml:'', explain:''}]);
