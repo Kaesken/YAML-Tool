@@ -63,6 +63,15 @@ select option{background:var(--bg3)}
 .tag{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);
   border-radius:4px;padding:3px 9px;font-size:13px;color:var(--text2);margin:0 4px 4px 0}
 .tag .x{color:var(--red);cursor:pointer;font-weight:bold;line-height:1}
+.hz-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:50;max-height:280px;overflow-y:auto;
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.hz-province{position:sticky;top:0;background:var(--bg4);color:var(--text3);font-size:11px;font-weight:bold;
+  letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-bottom:1px solid var(--border2)}
+.hz-option{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:6px 10px;
+  cursor:pointer;font-size:13px;color:var(--blue2)}
+.hz-option:hover{background:var(--blue3)}
+.hz-option .hz-rank{color:var(--text3);font-size:12px;white-space:nowrap;flex-shrink:0}
+.hz-empty{padding:8px 10px;color:var(--text3);font-size:12px}
 .spell-chip{background:var(--bg3);border:1px solid var(--border);border-radius:4px;
   color:var(--text2);padding:4px 10px;font-size:13px;cursor:pointer;font-family:var(--mono);
   margin:0 4px 4px 0;transition:all .15s;display:inline-block}
@@ -641,11 +650,13 @@ select option{background:var(--bg3)}
   </div>
   <div class="card">
     <div class="sec-head">Hunting zones (hunting_info)</div>
-    <div style="display:flex;gap:7px;margin-bottom:6px">
-      <input type="text" id="huntZoneInput" list="zone-datalist" placeholder="start typing a zone name…" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addHuntZone()">
+    <div style="display:flex;gap:7px;margin-bottom:6px;position:relative">
+      <div style="flex:1;position:relative">
+        <input type="text" id="huntZoneInput" autocomplete="off" placeholder="start typing a zone name…" style="width:100%;margin-bottom:0" oninput="renderHuntZoneDropdown()" onfocus="renderHuntZoneDropdown()" onkeydown="if(event.key==='Enter')addHuntZone();if(event.key==='Escape')closeHuntZoneDropdown()">
+        <div id="hunt-zone-dropdown" class="hz-dropdown" style="display:none"></div>
+      </div>
       <button class="btn small primary" onclick="addHuntZone()">Add</button>
     </div>
-    <datalist id="zone-datalist"></datalist>
     <div id="hunt-zone-tags" style="margin-bottom:9px"></div>
     <div class="g3">
       <div><label class="lbl">Duration <span class="hint">seconds to hunt</span></label>
@@ -1102,15 +1113,47 @@ function renderTrainingAbilities(){
   const wrap=document.getElementById('training-ability-rows');if(!wrap)return;
   wrap.innerHTML=S.trainingAbilities.map((a,i)=>`<span class="tag">${t2esc(a.name)}: ${t2esc(a.secs)}s <span class="tag-x" onclick="removeTrainingAbility(${i})">✕</span></span>`).join('');
 }
-function populateZoneDatalist(){
-  const dl=document.getElementById('zone-datalist');if(!dl)return;
-  dl.innerHTML=sortedHuntingZones().map(z=>{
-    const r=ZONE_RANKS[z];
-    const p=ZONE_PROVINCES[z];
-    const bits=[]; if(p)bits.push(p); if(r)bits.push('skill '+r);
-    return `<option value="${z}"${bits.length?` label="${z} — ${bits.join(', ')}"`:''}>${bits.join(', ')}</option>`;
-  }).join('');
+function populateZoneDatalist(){ /* no-op — the hunting-zone dropdown now renders live from renderHuntZoneDropdown() */ }
+function renderHuntZoneDropdown(){
+  const dd=document.getElementById('hunt-zone-dropdown'); if(!dd) return;
+  const inp=document.getElementById('huntZoneInput'); if(!inp) return;
+  const q=inp.value.trim().toLowerCase();
+  const matches=(q?sortedHuntingZones().filter(z=>z.toLowerCase().includes(q)):sortedHuntingZones());
+  dd.innerHTML='';
+  if(!matches.length){
+    const empty=document.createElement('div'); empty.className='hz-empty'; empty.textContent='No matching zones';
+    dd.appendChild(empty); dd.style.display=''; return;
+  }
+  let lastProvince;
+  matches.forEach(z=>{
+    const p=ZONE_PROVINCES[z]||'Other';
+    if(p!==lastProvince){
+      const head=document.createElement('div'); head.className='hz-province'; head.textContent=p;
+      dd.appendChild(head); lastProvince=p;
+    }
+    const row=document.createElement('div'); row.className='hz-option';
+    const name=document.createElement('span'); name.textContent=z;
+    const rank=document.createElement('span'); rank.className='hz-rank'; rank.textContent=ZONE_RANKS[z]||'';
+    row.appendChild(name); row.appendChild(rank);
+    row.onclick=()=>selectHuntZone(z);
+    dd.appendChild(row);
+  });
+  dd.style.display='';
 }
+function closeHuntZoneDropdown(){
+  const dd=document.getElementById('hunt-zone-dropdown'); if(dd) dd.style.display='none';
+}
+function selectHuntZone(zone){
+  const inp=document.getElementById('huntZoneInput'); if(inp) inp.value=zone;
+  closeHuntZoneDropdown();
+  addHuntZone();
+}
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('hunt-zone-dropdown');
+  const inp=document.getElementById('huntZoneInput');
+  if(!dd||dd.style.display==='none') return;
+  if(e.target!==inp && !dd.contains(e.target)) closeHuntZoneDropdown();
+});
 function addHuntZone(){
   const inp=document.getElementById('huntZoneInput');if(!inp)return;
   const val=inp.value.trim();if(!val)return;
@@ -1119,7 +1162,7 @@ function addHuntZone(){
     return;
   }
   if(!S.huntZones.includes(val))S.huntZones.push(val);
-  inp.value='';renderHuntZones();updateCurrentPreview();
+  inp.value='';closeHuntZoneDropdown();renderHuntZones();updateCurrentPreview();
 }
 function removeHuntZone(i){S.huntZones.splice(i,1);renderHuntZones();updateCurrentPreview();}
 function renderHuntZones(){
