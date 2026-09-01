@@ -241,25 +241,7 @@ select option{background:var(--bg3)}
         <option>Rossman's Landing</option>
       </select>
     </div>
-    <div class="g2">
-      <div><label class="lbl">Force healer town <span class="hint">optional</span></label>
-        <select id="forceHealerTown" onchange="updateCurrentPreview()">
-          <option value="">— none —</option>
-          <option>Aesry</option>
-          <option>Crossing</option>
-          <option>Fang Cove</option>
-          <option>Hara'jaal</option>
-          <option>Hibarnhvidar</option>
-          <option>Mer'Kresh</option>
-          <option>Muspar'i</option>
-          <option>Ratha</option>
-          <option>Riverhaven</option>
-          <option>Rossman's Landing</option>
-          <option>Shard</option>
-          <option>Therenborough</option>
-        </select></div>
-      <div><label class="lbl">Footwear <span class="hint">optional</span></label><input type="text" id="footwear" oninput="updateCurrentPreview()"></div>
-    </div>
+    <div><label class="lbl">Footwear <span class="hint">optional</span></label><input type="text" id="footwear" oninput="updateCurrentPreview()"></div>
     <div class="g2">
       <div><label class="lbl">Worn instrument <span class="hint">played while worn, e.g. zills</span></label><input type="text" id="wornInstrument" oninput="updateCurrentPreview()"></div>
       <div><label class="lbl">Hand armor <span class="hint">what's on your hands</span></label><input type="text" id="handArmor" oninput="updateCurrentPreview()"></div>
@@ -290,7 +272,7 @@ select option{background:var(--bg3)}
 
   <div class="card">
     <div class="sec-head">Storage containers</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Make sure your <b style="color:var(--blue2)">TOGGLE BRIEFINV</b> is turned on then type <b style="color:var(--blue2)">INV CONTAINER</b> in-game and paste below. Everything starts unchecked — pick only what you want scripts to use.</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Make sure your <b style="color:var(--blue2)">TOGGLE BRIEFINV</b> is turned on then type <b style="color:var(--blue2)">INV CONTAINER</b> in-game and paste below. Everything starts unchecked — pick only what you want scripts to use. Each container's <b style="color:var(--blue2)">opens/closes</b> toggle controls whether it's added to <b style="color:var(--blue2)">storage_containers</b> — turn it off for containers that can't be opened/closed (e.g. always-open pouches); they'll still be selectable in the other container dropdowns below.</p>
     <textarea id="containerPaste" style="min-height:90px"></textarea>
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
       <button class="btn primary" onclick="parseContainers()">Parse containers</button>
@@ -913,7 +895,7 @@ function renderGuildSpellPicker(){
     head.style.cssText='font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin:8px 0 4px;';
     head.textContent = skill;
     container.appendChild(head);
-    groups[skill].forEach(sp=>{
+    groups[skill].slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(sp=>{
       const sel = S.configuredSpells.find(s=>s.name===sp.name);
       const chip = document.createElement('span');
       chip.className='spell-chip'+(sel?' sel':'');
@@ -1371,9 +1353,12 @@ function onGuildChange(){
 // S.containers       = final selected list (from checklist + manual)
 // S.parsedContainers = [{name, checked}] from paste
 // S.manualContainers = [string] added by hand
+// S.containerFlags    = {name: canOpenClose} — only openable containers go into storage_containers;
+//                        non-openable ones still populate the other container dropdowns
 
 S.parsedContainers = [];
 S.manualContainers = [];
+S.containerFlags = {};
 
 function parseContainers(){
   const raw = document.getElementById('containerPaste').value;
@@ -1430,8 +1415,25 @@ function renderContainerChecklist(){
     name.style.cssText = 'font-size:12px;color:var(--blue2);flex:1';
     name.textContent = ci.name;
     row.appendChild(cb); row.appendChild(name);
+    row.appendChild(containerFlagToggle(ci.name));
     div.appendChild(row);
   });
+}
+
+// Small "opens/closes" toggle shared by the checklist and manual container rows.
+// Only containers marked openable go into storage_containers; others stay
+// selectable in the other container dropdowns (gem pouch, crafting container, etc.)
+function containerFlagToggle(name){
+  const canOpen = S.containerFlags[name] !== false;
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;align-items:center;gap:5px;flex-shrink:0';
+  wrap.onclick = (e)=>{
+    e.preventDefault(); e.stopPropagation();
+    S.containerFlags[name] = !(S.containerFlags[name] !== false);
+    syncContainers(); renderContainerChecklist(); renderManualContainerTags();
+  };
+  wrap.innerHTML = `<div class="toggle-track toggle-mini${canOpen?' on':''}"><div class="toggle-thumb"></div></div><span style="font-size:11px;color:var(--text2)">opens/closes</span>`;
+  return wrap;
 }
 
 function containerSelectAll(val){
@@ -1466,9 +1468,18 @@ function renderManualContainerTags(){
     return;
   }
   S.manualContainers.forEach((c,i)=>{
-    const t = document.createElement('span'); t.className='tag';
-    t.innerHTML = `${c} <span class="x" onclick="removeManualContainer(${i})">×</span>`;
-    div.appendChild(t);
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:4px;margin-bottom:2px;background:var(--bg4);border:1px solid var(--border2)';
+    const name = document.createElement('code');
+    name.style.cssText = 'font-size:12px;color:var(--blue2);flex:1';
+    name.textContent = c;
+    const x = document.createElement('span');
+    x.className = 'x'; x.textContent = '×'; x.style.cssText = 'cursor:pointer;flex-shrink:0';
+    x.onclick = ()=>removeManualContainer(i);
+    row.appendChild(name);
+    row.appendChild(containerFlagToggle(c));
+    row.appendChild(x);
+    div.appendChild(row);
   });
 }
 
@@ -2280,13 +2291,39 @@ function buildMoonMageFields(container){
   const c1=mkCard(container,'Moon Mage — Astrology');
   mkNum(c1,'astrologyPoolTarget','Astrology pool target');
   const g2=document.createElement('div');g2.className='g2';c1.appendChild(g2);
-  mkField(g2,'astroPredMagic','Magic prediction skill','Arcana');
-  mkField(g2,'astroPredLore','Lore prediction skill','Scholarship');
-  mkField(g2,'astroPredOffense','Offense prediction skill','Bow');
-  mkField(g2,'astroPredDefense','Defense prediction skill','Parry');
-  mkField(g2,'astroPredSurvival','Survival prediction skill','Outdoorsmanship');
+  mkSel(g2,'astroPredMagic','Magic prediction skill',['',...(T2_SKILL_GROUPS['Magic']||[])],'');
+  mkSel(g2,'astroPredLore','Lore prediction skill',['',...(T2_SKILL_GROUPS['Lore']||[])],'');
+  mkSel(g2,'astroPredOffense','Offensive prediction skill',['',...(T2_SKILL_GROUPS['Weapon']||T2_SKILL_GROUPS['Weapons']||[])],'');
+  mkSel(g2,'astroPredDefense','Defense prediction skill',['',...(T2_SKILL_GROUPS['Armor']||T2_SKILL_GROUPS['Armor & Defense']||[])],'');
+  mkSel(g2,'astroPredSurvival','Survival prediction skill',['',...(T2_SKILL_GROUPS['Survival']||[])],'');
   const c2=mkCard(container,'Moon Mage — Astrology Training');
-  mkTA(c2,'astrologyTraining','Training activities (one per line)','attunement\nobserve\nevents');
+  mkAstrologyTrainingChecks(c2);
+}
+const ASTROLOGY_TRAINING_ACTIVITIES=[
+  {key:'ways',        label:'Ways',        hint:'Trains via the astral ways/planes.'},
+  {key:'observe',     label:'Observe',     hint:'Observes the heavens/sky.'},
+  {key:'rtr',         label:'RTR',         hint:'Read the ripples (spell).'},
+  {key:'weather',     label:'Weather',     hint:'Predicts the weather.'},
+  {key:'events',      label:'Events',      hint:'Predicts celestial events (uses prediction pools).'},
+  {key:'attunement',  label:'Attunement',  hint:'Attunement training.'}
+];
+function mkAstrologyTrainingChecks(parent){
+  const w=document.createElement('div');
+  w.innerHTML=`<label class="lbl">Astrology training <span class="hint">pick any that apply</span></label>`;
+  const wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;flex-direction:column;gap:6px';
+  ASTROLOGY_TRAINING_ACTIVITIES.forEach(a=>{
+    const row=document.createElement('label');
+    row.style.cssText='display:flex;align-items:center;gap:8px;cursor:pointer';
+    row.innerHTML=`<input type="checkbox" id="g_astroTrain_${a.key}" style="accent-color:var(--green2);width:14px;height:14px;cursor:pointer" onchange="updateCurrentPreview()"><span style="font-size:13px">${a.label}</span><span class="hint">${a.hint}</span>`;
+    wrap.appendChild(row);
+  });
+  w.appendChild(wrap);
+  parent.appendChild(w);
+  return w;
+}
+function getAstrologyTraining(){
+  return ASTROLOGY_TRAINING_ACTIVITIES.filter(a=>document.getElementById('g_astroTrain_'+a.key)?.checked).map(a=>a.key);
 }
 function buildRangerFields(container){
   const c1=mkCard(container,'Ranger — Guild Settings');
@@ -2715,6 +2752,12 @@ function downloadYAML(){
       ()=>{goStep(0);const el=document.getElementById('charName');if(el){if(el.scrollIntoView)el.scrollIntoView({block:'center'});el.focus();}});
     return;
   }
+  if(v('hometown')==='Fang Cove'&&!v('fangCoveOverrideTown')){
+    showErrorBox('Fang Cove override town required',
+      'Choose a nearby mainland town for Fang Cove override town before downloading — many scripts (athletics, burgle, checkfavors, crossing-repair, favor) won\'t work properly from Fang Cove without it.',
+      ()=>{goStep(0);const el=document.getElementById('fangCoveOverrideTown');if(el){if(el.scrollIntoView)el.scrollIntoView({block:'center'});el.focus();}});
+    return;
+  }
   const validBlocks=S.trainingList.filter(b=>b.skills.length&&(b.scripts||'').trim());
   if(!validBlocks.length){
     showErrorBox('Training List required',
@@ -2753,8 +2796,7 @@ function buildYAML(){
 
   sec('Basic Setup');
   if(v('hometown'))L(`hometown: ${v('hometown')}`);
-  if(v('hometown')==='Fang Cove'&&v('fangCoveOverrideTown'))L(`fang_cove_override_town: ${v('fangCoveOverrideTown')}`);
-  if(v('forceHealerTown'))L(`force_healer_town: ${v('forceHealerTown')}`);
+  if(v('hometown')==='Fang Cove')L(`fang_cove_override_town: ${v('fangCoveOverrideTown')}`);
   if(v('safeRoom')) L(`safe_room: ${v('safeRoom')}`);
   L(`stop_hunting_if_bleeding: ${T.stopBleed?'true':'false'}`);
 
@@ -2765,7 +2807,8 @@ function buildYAML(){
   if(v('wornInstrument'))L(`worn_instrument: ${v('wornInstrument')}`);
   if(textbookType==='textbook'){L('textbook: true');L(`textbook_type: ${v('textbookType')||'textbook'}`);}
   else if(textbookType==='compendium'){L(`compendium_type: ${v('compendiumNoun')||'compendium'}`);}
-  if(S.containers.length){L('storage_containers:');S.containers.forEach(c=>L('  - '+c));}
+  const openableContainers=S.containers.filter(c=>S.containerFlags[c]!==false);
+  if(openableContainers.length){L('storage_containers:');openableContainers.forEach(c=>L('  - '+c));}
 
   sec('Combat Setup');
   const filledSlots=WEAPON_SLOTS.filter(s=>s!=='Brawling'&&v('w_'+s.replace(/\s/g,'_')));
@@ -3185,7 +3228,7 @@ function buildGuildYAML(guild,gv){
       const val=gv('astroPred'+k.charAt(0).toUpperCase()+k.slice(1));
       if(val)ls.push(` ${k}: ${val}`);
     });
-    const at=(gv('astrologyTraining')||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    const at=getAstrologyTraining();
     if(at.length){ls.push('astrology_training:');at.forEach(a=>ls.push('- '+a));}
   }else if(guild==='Ranger'){
     ls.push(`pounce_on_cooldown: ${T['g_pounceOnCooldown']?'true':'false'}`);
@@ -3409,7 +3452,7 @@ function updateBarbPreviews(){
     const preds=[['Magic','magic'],['Lore','lore'],['Offense','offense'],['Defense','defense'],['Survival','survival']].filter(([f])=>gvv('astroPred'+f));
     if(preds.length) gRows.push({yaml:`astrology_prediction_skills:\n${preds.map(([f,k])=>` ${k}: ${gvv('astroPred'+f)}`).join('\n')}`,
       explain:`Which skill each prediction category trains.`});
-    const at=(gvv('astrologyTraining')||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    const at=getAstrologyTraining();
     if(at.length) gRows.push({yaml:`astrology_training:\n${at.map(a=>'- '+a).join('\n')}`,
       explain:`Astrology activities to cycle while training.`});
   } else if(v('guild')==='Ranger'){
@@ -3456,7 +3499,7 @@ document.addEventListener('change', ()=>updateCurrentPreview());
 // ── Per-step preview builders ─────────────────────────────
 function previewBasics(){
   const hn = v('hometown'), sr = v('safeRoom'), fw = v('footwear'),
-        ha = v('handArmor'), wi = v('wornInstrument'), fht = v('forceHealerTown');
+        ha = v('handArmor'), wi = v('wornInstrument');
   const rows = [];
 
   if(hn){
@@ -3473,13 +3516,6 @@ function previewBasics(){
     rows.push({
       yaml: `safe_room: ${sr}`,
       explain: `<b>safe_room</b> is the room ID your character returns to between tasks. Type <b>ids</b> in-game to find your room ID (first number listed under exec1).`
-    });
-  }
-
-  if(fht){
-    rows.push({
-      yaml: `force_healer_town: ${fht}`,
-      explain: `<b>force_healer_town</b> tells scripts which town to go to for NPC healing. Useful if your hometown doesn't have a healer or has a poor one.`
     });
   }
 
@@ -3528,9 +3564,10 @@ function previewBasics(){
 
 function previewContainers(){
   const rows = [];
-  if(S.containers.length){
+  const openableContainers = S.containers.filter(c=>S.containerFlags[c]!==false);
+  if(openableContainers.length){
     rows.push({
-      yaml: `storage_containers:\n${S.containers.map(c=>`  - ${c}`).join('\n')}`,
+      yaml: `storage_containers:\n${openableContainers.map(c=>`  - ${c}`).join('\n')}`,
       explain: `<b>storage_containers</b> is the list of bags scripts will put loot and items into. Order matters — scripts fill the first bag first. Use <b>INV CONTAINER</b> in-game (with TOGGLE BRIEFINV) to get the adjective noun format. You need at least 2 containers that are NOT your autoloot containers.`
     });
   }
@@ -3892,7 +3929,7 @@ function renderBarbChipGroup(divId, list, type){
   const div = document.getElementById(divId);
   if(!div) return;
   div.innerHTML = '';
-  list.forEach(name=>{
+  list.slice().sort((a,b)=>a.localeCompare(b)).forEach(name=>{
     const sel = S.thiefKhri.includes(name) || S.barbBuffs.includes(name);
     const c = document.createElement('span');
     c.className = 'spell-chip' + (sel?' sel':'');
@@ -3911,7 +3948,7 @@ function renderBarbRoars(){
   const div = document.getElementById('barb-roars');
   if(!div) return;
   div.innerHTML = '';
-  BARB_ROARS.forEach(name=>{
+  BARB_ROARS.slice().sort((a,b)=>a.localeCompare(b)).forEach(name=>{
     const sel = (S.barbRoarCooldowns[name] !== undefined);
     const c = document.createElement('span');
     c.className = 'spell-chip' + (sel?' sel':'');
@@ -3967,7 +4004,7 @@ function renderThiefChipGroup(divId, list){
   const div = document.getElementById(divId);
   if(!div) return;
   div.innerHTML = '';
-  list.forEach(name=>{
+  list.slice().sort((a,b)=>a.localeCompare(b)).forEach(name=>{
     const sel = S.thiefKhri.includes(name);
     const c = document.createElement('span');
     c.className = 'spell-chip' + (sel?' sel':'');
@@ -3985,7 +4022,7 @@ function renderThiefAmbushChips(){
   const div = document.getElementById('thief-ambush-chips');
   if(!div) return;
   div.innerHTML = '';
-  THIEF_AMBUSH.forEach(name=>{
+  THIEF_AMBUSH.slice().sort((a,b)=>a.localeCompare(b)).forEach(name=>{
     const sel = S.thiefAmbush.includes(name);
     const c = document.createElement('span');
     c.className = 'spell-chip' + (sel?' sel':'');
@@ -4016,7 +4053,7 @@ function renderThiefBuffLines(){
     lineNum.textContent = (li+1)+'.';
     const chips = document.createElement('div');
     chips.style.cssText = 'flex:1;';
-    S.thiefKhri.forEach(name=>{
+    S.thiefKhri.slice().sort((a,b)=>a.localeCompare(b)).forEach(name=>{
       const sel = line.includes(name);
       const c = document.createElement('span');
       c.className = 'spell-chip' + (sel?' sel':'');
@@ -4242,16 +4279,15 @@ function setSectionPreview(id, rows){
 function updateSectionPreviews(){
   // ── Character basics ──
   const basicRows=[];
-  const hn=v('hometown'), sr=v('safeRoom'), fht=v('forceHealerTown'),
+  const hn=v('hometown'), sr=v('safeRoom'),
         fw=v('footwear'), ha=v('handArmor'), wi=v('wornInstrument');
   if(hn){
     let yaml=`hometown: ${hn}`;
     let explain=`Scripts use <b>hometown</b> to know which town you're based in — for banking, repairs, and navigation.`;
-    if(hn==='Fang Cove'){yaml+=`\nfang_cove_override_town: ${v('fangCoveOverrideTown')||''}`;explain+=`<span class="warn">⚠ Fang Cove: many scripts won't work here. Set <b>fang_cove_override_town</b> to a nearby mainland town.</span>`;}
+    if(hn==='Fang Cove'){yaml+=`\nfang_cove_override_town: ${v('fangCoveOverrideTown')||''}`;explain+=`<span class="warn">⚠ Fang Cove: many scripts won't work here. <b>fang_cove_override_town</b> is required — set it to a nearby mainland town.</span>`;}
     basicRows.push({yaml,explain});
   }
   if(sr) basicRows.push({yaml:`safe_room: ${sr}`,explain:`<b>safe_room</b> is the room ID your character returns to between tasks. Type <b>ids</b> in-game to find it.`});
-  if(fht) basicRows.push({yaml:`force_healer_town: ${fht}`,explain:`<b>force_healer_town</b> tells scripts which town to go to for NPC healing.`});
   if(fw) basicRows.push({yaml:`footwear: ${fw}`,explain:`<b>footwear</b> noun — removed when putting on ice skates when traveling through Forfedhar.`});
   if(ha) basicRows.push({yaml:`hand_armor: ${ha}`,explain:`<b>hand_armor</b> — temporarily removed by scripts that need a free hand.`});
   if(wi) basicRows.push({yaml:`worn_instrument: ${wi}`,explain:`<b>worn_instrument</b> — played while worn, no need to hold it.`});
@@ -4266,8 +4302,9 @@ function updateSectionPreviews(){
   setSectionPreview('textbook', tbRows);
 
   // ── Containers ──
-  if(S.containers.length){
-    setSectionPreview('containers',[{yaml:`storage_containers:\n${S.containers.map(c=>'  - '+c).join('\n')}`,explain:`<b>storage_containers</b> are the bags scripts stow loot into. Order matters — first bag fills first.`}]);
+  const openableContainers2=S.containers.filter(c=>S.containerFlags[c]!==false);
+  if(openableContainers2.length){
+    setSectionPreview('containers',[{yaml:`storage_containers:\n${openableContainers2.map(c=>'  - '+c).join('\n')}`,explain:`<b>storage_containers</b> are the bags scripts stow loot into. Order matters — first bag fills first.`}]);
   } else {
     setSectionPreview('containers',[]);
   }
@@ -4317,21 +4354,20 @@ function setSP(id, rows){
 }
 
 function updateAllSectionPreviews(){
-  const hn=v('hometown'), sr=v('safeRoom'), fht=v('forceHealerTown'),
+  const hn=v('hometown'), sr=v('safeRoom'),
         fw=v('footwear'), ha=v('handArmor'), wi=v('wornInstrument');
 
   // ── Character Basics ──────────────────────────────────
   const basRows=[];
   if(hn){
     let y=`hometown: ${hn}`, ex=`Scripts use <b>hometown</b> to know which town you're based in — for banking, repairs, favor altars, and navigation.`;
-    if(hn==='Fang Cove'){ y+=`\nfang_cove_override_town: ${v('fangCoveOverrideTown')||''}`; ex+=`<span class="warn">⚠ Fang Cove: many scripts (athletics, burgle, checkfavors, crossing-repair) won't work here. Add <b>fang_cove_override_town</b> set to a nearby mainland town.</span>`; }
+    if(hn==='Fang Cove'){ y+=`\nfang_cove_override_town: ${v('fangCoveOverrideTown')||''}`; ex+=`<span class="warn">⚠ Fang Cove: many scripts (athletics, burgle, checkfavors, crossing-repair) won't work here. <b>fang_cove_override_town</b> is required — set it to a nearby mainland town.</span>`; }
     basRows.push({yaml:y, explain:ex});
   }
   if(sr) basRows.push({
     yaml:`safe_room: ${sr}`,
     explain:`<b>safe_room</b> is the room ID scripts return to between tasks. Type <b>ids</b> in-game to find it (use the first number). The <b>&amp;safe_room</b> anchor means all craft room settings automatically point to the same place.`
   });
-  if(fht) basRows.push({yaml:`force_healer_town: ${fht}`, explain:`<b>force_healer_town</b> tells scripts which town to travel to for NPC healing.`});
   if(fw)  basRows.push({yaml:`footwear: ${fw}`, explain:`<b>footwear</b> noun — the travel script removes it before equipping ice skates when crossing Forfedhar.`});
   if(ha)  basRows.push({yaml:`hand_armor: ${ha}`, explain:`<b>hand_armor</b> — temporarily removed by scripts that need a free hand (picking boxes, etc.).`});
   if(wi)  basRows.push({yaml:`worn_instrument: ${wi}`, explain:`<b>worn_instrument</b> — an instrument you can play while wearing it. Scripts use it for performance training without needing to hold it.`});
@@ -4351,9 +4387,10 @@ function updateAllSectionPreviews(){
   setSP('textbook', tbRows);
 
   // ── Storage Containers ───────────────────────────────
-  setSP('containers', S.containers.length ? [{
-    yaml:`storage_containers:\n${S.containers.map(c=>'  - '+c).join('\n')}`,
-    explain:`<b>storage_containers</b> are the bags scripts put loot and items into. Order matters — the first container fills first. Use adjective noun format (e.g. "thigh bag").`
+  const openableContainers=S.containers.filter(c=>S.containerFlags[c]!==false);
+  setSP('containers', openableContainers.length ? [{
+    yaml:`storage_containers:\n${openableContainers.map(c=>'  - '+c).join('\n')}`,
+    explain:`<b>storage_containers</b> are the bags scripts put loot and items into. Order matters — the first container fills first. Use adjective noun format (e.g. "thigh bag"). Only containers marked <b>opens/closes</b> are listed here — the rest stay available in the other container dropdowns.`
   }] : []);
 
   // ── Burgling ─────────────────────────────────────────
