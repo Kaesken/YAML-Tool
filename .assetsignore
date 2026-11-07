@@ -1,2 +1,4 @@
 .git
 .wrangler
+wrangler.toml
+CHANGELOG.md
