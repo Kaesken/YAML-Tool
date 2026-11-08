@@ -629,7 +629,7 @@ select option{background:var(--bg3)}
   <div class="section-preview" id="sp-skinning"><div class="section-preview-head">📋 YAML Preview — Skinning</div><div class="section-preview-body" id="sp-skinning-body"></div></div>
 
   <div class="card">
-    <div class="sec-head">Hunting buddies</div>
+    <div class="sec-head">Hunting buddies<button type="button" class="info-ic" data-fi="huntingBuddyInput">i</button></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Friends who hunt in the same zones. Add each other to the list to share a room.</p>
     <div style="display:flex;gap:7px;margin-bottom:6px">
       <input type="text" id="huntingBuddyInput" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addHuntingBuddy()">
@@ -640,7 +640,7 @@ select option{background:var(--bg3)}
   <div class="section-preview" id="sp-buddies"><div class="section-preview-head">📋 YAML Preview — Hunting buddies</div><div class="section-preview-body" id="sp-buddies-body"></div></div>
 
   <div class="card">
-    <div class="sec-head">Empty hunting room messages</div>
+    <div class="sec-head">Empty hunting room messages<button type="button" class="info-ic" data-fi="emptyRoomMsgInput">i</button></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Messages broadcast when checking if a hunting room is taken. Add one or more.</p>
     <div style="display:flex;gap:7px;margin-bottom:6px">
       <input type="text" id="emptyRoomMsgInput" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addEmptyRoomMsg()">
@@ -651,7 +651,7 @@ select option{background:var(--bg3)}
   <div class="section-preview" id="sp-emptymsg"><div class="section-preview-head">📋 YAML Preview — Empty room messages</div><div class="section-preview-body" id="sp-emptymsg-body"></div></div>
 
   <div class="card">
-    <div class="sec-head">Ignored NPCs</div>
+    <div class="sec-head">Ignored NPCs<button type="button" class="info-ic" data-fi="ignoredNpcInput">i</button></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:8px">NPCs that combat-trainer will ignore and not attack (pets, domestics, etc.).</p>
     <div style="display:flex;gap:7px;margin-bottom:6px">
       <input type="text" id="ignoredNpcInput" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addIgnoredNpc()">
@@ -673,7 +673,7 @@ select option{background:var(--bg3)}
     <div id="training-blocks"></div>
   </div>
   <div class="card">
-    <div class="sec-head">Training abilities <span class="hint">seconds between uses — order matters; base.yaml starts you with Hunt: 80</span></div>
+    <div class="sec-head">Training abilities <span class="hint">seconds between uses — order matters; base.yaml starts you with Hunt: 80</span><button type="button" class="info-ic" data-fi="taAbility">i</button></div>
     <div style="display:flex;gap:7px;margin-bottom:6px">
       <select id="taAbility" style="flex:1;margin-bottom:0"></select>
       <input type="number" id="taSecs" placeholder="60" style="width:110px;margin-bottom:0" onkeydown="if(event.key==='Enter')addTrainingAbility()">
@@ -693,32 +693,32 @@ select option{background:var(--bg3)}
     </div>
     <div id="hunt-zone-tags" style="margin-bottom:9px"></div>
     <div class="g3">
-      <div><label class="lbl">Duration <span class="hint">minutes to hunt</span></label>
+      <div><label class="lbl">Duration <span class="hint">minutes to hunt</span><button type="button" class="info-ic" data-fi="huntDuration">i</button></label>
         <input type="number" id="huntDuration" min="1" oninput="setHunt('duration',this.value)" style="margin-bottom:0"></div>
-      <div><label class="lbl">Dance <span class="hint">creatures to leave alive to dance with</span></label>
+      <div><label class="lbl">Dance <span class="hint">creatures to leave alive to dance with</span><button type="button" class="info-ic" data-fi="huntDance">i</button></label>
         <select id="huntDance" onchange="setHunt('dance',this.value)"><option value="">— none (base dance_threshold) —</option><option value="d0">d0 — kill everything</option><option>d1</option><option>d2</option><option>d3</option><option>d4</option></select></div>
-      <div id="hunt-creature-row" style="display:none"><label class="lbl">Creature type <span class="hint">Empath — leave as living if neither</span></label>
+      <div id="hunt-creature-row" style="display:none"><label class="lbl">Creature type <span class="hint">Empath — leave as living if neither</span><button type="button" class="info-ic" data-fi="huntCreatureType">i</button></label>
         <select id="huntCreatureType" onchange="setHunt('creature',this.value)"><option value="">living</option><option>construct</option><option>undead</option></select></div>
     </div>
     <div class="g2" style="margin-top:8px">
-      <div><label class="lbl">Stop when locked <span class="hint">stop_on</span></label><div id="hunt-stop_on"></div></div>
-      <div><label class="lbl">Stop when low <span class="hint">stop_on_low</span></label><div id="hunt-stop_on_low"></div></div>
+      <div><label class="lbl">Stop when locked <span class="hint">stop_on</span><button type="button" class="info-ic" data-fi="huntStopOn">i</button></label><div id="hunt-stop_on"></div></div>
+      <div><label class="lbl">Stop when low <span class="hint">stop_on_low</span><button type="button" class="info-ic" data-fi="huntStopOnLow">i</button></label><div id="hunt-stop_on_low"></div></div>
     </div>
-    <div><label class="lbl">Other args <span class="hint">space separated, passed to combat-trainer</span></label><input type="text" id="huntExtraArgs" oninput="setHunt('extraArgs',this.value)"></div>
+    <div><label class="lbl">Other args <span class="hint">space separated, passed to combat-trainer</span><button type="button" class="info-ic" data-fi="huntExtraArgs">i</button></label><input type="text" id="huntExtraArgs" oninput="setHunt('extraArgs',this.value)"></div>
     <div class="g3">
-      <div><label class="lbl">Before <span class="hint">scripts, one per line</span></label><textarea id="huntBefore" rows="2" oninput="setHunt('before',this.value)"></textarea></div>
-      <div><label class="lbl">During</label><textarea id="huntDuring" rows="2" oninput="setHunt('during',this.value)"></textarea></div>
-      <div><label class="lbl">After</label><textarea id="huntAfter" rows="2" oninput="setHunt('after',this.value)"></textarea></div>
+      <div><label class="lbl">Before <span class="hint">scripts, one per line</span><button type="button" class="info-ic" data-fi="huntBefore">i</button></label><textarea id="huntBefore" rows="2" oninput="setHunt('before',this.value)"></textarea></div>
+      <div><label class="lbl">During<button type="button" class="info-ic" data-fi="huntDuring">i</button></label><textarea id="huntDuring" rows="2" oninput="setHunt('during',this.value)"></textarea></div>
+      <div><label class="lbl">After<button type="button" class="info-ic" data-fi="huntAfter">i</button></label><textarea id="huntAfter" rows="2" oninput="setHunt('after',this.value)"></textarea></div>
     </div>
     <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <label style="font-size:12px;color:var(--text2)"><input type="checkbox" id="huntBoxes" onchange="setHunt('boxes',this.checked)"> stop when out of box space (stop_on_boxes)</label>
-      <label style="font-size:12px;color:var(--text2)"><input type="checkbox" id="huntMoons" onchange="setHunt('moons',this.checked)"> only when a moon is up (moons)</label>
+      <label style="font-size:12px;color:var(--text2)"><input type="checkbox" id="huntBoxes" onchange="setHunt('boxes',this.checked)"> stop when out of box space (stop_on_boxes)<button type="button" class="info-ic" data-fi="huntBoxes">i</button></label>
+      <label style="font-size:12px;color:var(--text2)"><input type="checkbox" id="huntMoons" onchange="setHunt('moons',this.checked)"> only when a moon is up (moons)<button type="button" class="info-ic" data-fi="huntMoons">i</button></label>
     </div>
   </div>
   <div class="card">
-    <div class="sec-head">crossing-training <span class="hint">optional — non-combat training instead of / alongside T2</span></div>
+    <div class="sec-head">crossing-training <span class="hint">optional — non-combat training instead of / alongside T2</span><button type="button" class="info-ic" data-fi="ctSkills">i</button></div>
     <div id="ct-skills"></div>
-    <div><label class="lbl">Max threshold <span class="hint">crossing_training_max_threshold</span></label><input type="number" id="ctMaxThreshold" min="1" max="34" oninput="updateCurrentPreview()"></div>
+    <div><label class="lbl">Max threshold <span class="hint">crossing_training_max_threshold</span><button type="button" class="info-ic" data-fi="ctMaxThreshold">i</button></label><input type="number" id="ctMaxThreshold" min="1" max="34" oninput="updateCurrentPreview()"></div>
   </div>
   <div class="section-preview" id="sp-hunting"><div class="section-preview-head">📋 YAML Preview — Hunting Info</div><div class="section-preview-body" id="sp-hunting-body"></div></div>
   <div class="section-preview" id="sp-training"><div class="section-preview-head">📋 YAML Preview — Training List</div><div class="section-preview-body" id="sp-training-body"></div></div>
@@ -4871,8 +4871,8 @@ function startTool(){
     textbookType:{status:'optional',yamlKey:'textbook_type',extra:"Only used when you've marked that you carry a textbook (above). Must exactly match the item's noun in your inventory."},
     compendiumNoun:{status:'optional',yamlKey:'compendium_type',extra:"For burgled manuals/guides used like a compendium. Must exactly match the item's noun in your inventory."},
 
-    hasBurgle:{status:'optional',desc:"Turns on burgling (breaking into containers/boxes while hunting). When on, a Burgle room ID becomes required, and the rest of this card is written into burgle_settings in your YAML."},
-    t2BurgleEveryBlock:{status:'optional',yamlKey:'t2_burgle_every_block',desc:"If on, T2 training burgles during every training block instead of only some."},
+    hasBurgle:{status:'optional',title:'Enable burgle',desc:"Turns on burgling (breaking into containers/boxes while hunting). When on, a Burgle room ID becomes required, and the rest of this card is written into burgle_settings in your YAML."},
+    t2BurgleEveryBlock:{status:'optional',title:'Burgle every training block',yamlKey:'t2_burgle_every_block',desc:"If on, T2 training burgles during every training block instead of only some."},
     burgleRoom:{status:'required',statusLabel:'Required if burgling',desc:"burgle_settings.room — the room id to return to and burgle. Required once Enable burgle is on; type ids in-game to see a room's number."},
     burgleLootContainer:{status:'optional',desc:"burgle_settings.loot_container — where to put items taken from burgled boxes, when Loot isn't 'drop' or 'trashcan'."},
     burgleEntryType:{status:'optional',desc:"burgle_settings.entry_type — how to get into the burgle room: lockpick, rope, or cycle/priority combinations of the two."},
@@ -4887,7 +4887,7 @@ function startTool(){
     burgleRoomBlacklist:{status:'optional',desc:"burgle_settings.room_blacklist — room ids to never burgle (e.g. known traps), one per line."},
     burgleItemWhitelist:{status:'optional',desc:"burgle_settings.item_whitelist — items to always keep even when Loot is set to pawn/bin/drop, one per line."},
 
-    hasBoxes:{status:'optional',desc:"Turns on box/lockpicking as a training activity. When on, the pick settings below are written into your YAML's pick object."},
+    hasBoxes:{status:'optional',title:'Enable box picking',desc:"Turns on box/lockpicking as a training activity. When on, the pick settings below are written into your YAML's pick object."},
     boxSourceSelect:{status:'optional',desc:"pick.picking_box_sources — containers the script searches for boxes to pick. Add as many as you use."},
     skipRingRefill:{status:'optional',yamlKey:'skip_lockpick_ring_refill'},
     refillTown:{status:'optional',yamlKey:'refill_town',extra:'Only used when Skip lockpick ring refill is off. Leave blank to use your hometown.'},
@@ -4920,7 +4920,7 @@ function startTool(){
 
     favorGod:{status:'required',desc:"favor_god — whose shrine your checkfavors script visits. Picking a Light or Dark Immortal also requires favor altars and a water holder; Neutral Immortals don't need either."},
     favorGoal:{status:'optional',yamlKey:'favor_goal',extra:'How many favors to accumulate before stopping.'},
-    useFavorAltars:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'use_favor_altars'},
+    useFavorAltars:{status:'required',title:'Use favor altars',statusLabel:'Required for Light/Dark',yamlKey:'use_favor_altars'},
     waterHolder:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'water_holder',extra:'Clerics also use this item for theurgy.'},
     favorOrbFreq:{status:'optional',yamlKey:'favor_orb_rub_frequency',extra:'In seconds.'},
     favorTown:{status:'optional',yamlKey:'favor_town',extra:'Leave blank to use your hometown.'},
@@ -4957,14 +4957,39 @@ function startTool(){
     skinTieBundle:{status:'optional',desc:"skinning.tie_bundle — tie skinned materials into a bundle."},
     skinDissect:{status:'optional',desc:"skinning.dissect — dissect corpses for Skinning/First Aid/Cycle experience instead of just skinning."},
     skinDissectThan:{status:'optional',desc:"skinning.dissect_for_thanatology — dissect for Thanatology experience. Necromancers only."},
-    skinDissectPriority:{status:'optional',desc:"skinning.dissect_priority — which skill dissection should prioritize training."}
+    skinDissectPriority:{status:'optional',desc:"skinning.dissect_priority — which skill dissection should prioritize training."},
+
+    huntingBuddyInput:{status:'optional',title:'Hunting buddies',desc:"hunting_buddies — friends who hunt in the same zones. If you both add each other, you can share a hunting room without either script leaving."},
+    emptyRoomMsgInput:{status:'optional',title:'Empty hunting room messages',desc:"empty_hunting_room_messages — broadcast when checking whether a hunting room is already taken. Add one or more; pick something polite but clear."},
+    ignoredNpcInput:{status:'optional',title:'Ignored NPCs',desc:"ignored_npcs — NPCs combat-trainer will never attack (pets, domestics, and the like)."},
+
+    taAbility:{status:'optional',title:'Training abilities',desc:"training_abilities — abilities to activate automatically, with seconds between uses. Order matters; base.yaml starts you with Hunt: 80."},
+
+    huntDuration:{status:'recommended',desc:"hunting_info[]:duration — how many minutes to hunt this zone before the hunting-buddy script moves to the next one."},
+    huntDance:{status:'optional',desc:"hunting_info[] args — a dX dance threshold tells the script how many creatures to leave alive to dance with, instead of killing everything. Leave at none to use base.yaml's own dance_threshold."},
+    huntCreatureType:{status:'optional',desc:"hunting_info[] args — for Empaths, whether this zone's creatures are construct or undead (affects curing/attacks). Leave as living if neither applies."},
+    huntStopOn:{status:'optional',desc:"hunting_info[]:stop_on — stop hunting this zone once any of these lock conditions trigger (e.g. a status effect)."},
+    huntStopOnLow:{status:'optional',desc:"hunting_info[]:stop_on_low — stop hunting this zone once any of these resources run low (e.g. mana, stamina)."},
+    huntExtraArgs:{status:'optional',desc:"hunting_info[] args — extra space-separated arguments passed straight through to combat-trainer for this zone."},
+    huntBefore:{status:'optional',desc:"hunting_info[]:before — scripts to run before hunting starts in this zone, one per line."},
+    huntDuring:{status:'optional',desc:"hunting_info[]:during — scripts to run while hunting in this zone, one per line."},
+    huntAfter:{status:'optional',desc:"hunting_info[]:after — scripts to run after hunting ends in this zone, one per line."},
+    huntBoxes:{status:'optional',desc:"hunting_info[]:stop_on_boxes — stop hunting this zone once you're out of box space."},
+    huntMoons:{status:'optional',desc:"hunting_info[]:moons — only hunt this zone while a moon is up. Mainly useful for Moon Mages."},
+
+    ctSkills:{status:'optional',title:'crossing-training',desc:"crossing_training — non-combat skills to train instead of, or alongside, T2. Check the skills you want trained; each gets its own threshold settings."},
+    ctMaxThreshold:{status:'optional',yamlKey:'crossing_training_max_threshold'}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
     const lbl=btn.closest('label'); if(!lbl) return '';
-    let t='';
-    for(const n of lbl.childNodes){ if(n.nodeType===3) t+=n.textContent; else break; }
-    return t.trim();
+    let lead='';
+    for(const n of lbl.childNodes){ if(n.nodeType===3) lead+=n.textContent; else break; }
+    lead=lead.trim();
+    if(lead) return lead;
+    let all='';
+    lbl.childNodes.forEach(n=>{ if(n.nodeType===3) all+=n.textContent; });
+    return all.trim();
   }
   const pop=document.createElement('div'); pop.className='field-info-pop'; document.body.appendChild(pop);
   let openBtn=null;
@@ -4972,7 +4997,7 @@ function startTool(){
   function openPop(btn){
     if(openBtn===btn){ closePop(); return; }
     const id=btn.dataset.fi, info=FIELD_INFO[id]; if(!info) return;
-    const title=labelTextOf(btn)||id;
+    const title=info.title||labelTextOf(btn)||id;
     const desc=info.desc||(info.yamlKey?keyInfo(info.yamlKey):'')||'No description available yet.';
     const extra=info.extra?('<br><br>'+t2esc(info.extra)):'';
     const label=info.statusLabel||STATUS_LABEL[info.status]||'Optional';
