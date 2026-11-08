@@ -4712,7 +4712,13 @@ function startTool(){
       const e=document.createElement('div'); e.className='hz-empty'; e.textContent='No matches';
       dd.appendChild(e);
     }else{
+      let lastGroup;
       matches.forEach(o=>{
+        const g=(o.parentElement&&o.parentElement.tagName==='OPTGROUP')?o.parentElement.label:null;
+        if(g!==lastGroup){
+          if(g){ const head=document.createElement('div'); head.className='hz-province'; head.textContent=g; dd.appendChild(head); }
+          lastGroup=g;
+        }
         const row=document.createElement('div'); row.className='hz-option'+(o.value===sel.value?' cur':'');
         row.textContent=o.textContent;
         row.onmousedown=(ev)=>{ ev.preventDefault(); };
