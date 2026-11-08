@@ -894,7 +894,13 @@ select option{background:var(--bg3)}
     <div class="sec-head">Add any base.yaml setting</div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Every key in dr-scripts' <b>base.yaml</b> can be set here. Pick a key; it starts with base.yaml's value, which you edit as YAML. Settings made in the sections above win over this list. See <a href="lich-yaml-settings.html" target="_blank" rel="noopener" style="color:var(--blue2)">the settings index</a> for what each key does.</p>
     <datalist id="any-key-list"></datalist>
-    <div style="display:flex;gap:7px;margin-bottom:8px"><input type="text" id="anyKeyInput" list="any-key-list" placeholder="start typing a setting name" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addExtraSetting()"><button class="btn small primary" onclick="addExtraSetting()">Add</button></div>
+    <div style="display:flex;gap:7px;margin-bottom:8px">
+      <div style="flex:1;position:relative">
+        <input type="text" id="anyKeyInput" autocomplete="off" placeholder="start typing a setting name" style="width:100%;margin-bottom:0" onkeydown="if(event.key==='Enter')addExtraSetting()">
+        <div id="any-key-dropdown" class="hz-dropdown" style="display:none"></div>
+      </div>
+      <button class="btn small primary" onclick="addExtraSetting()">Add</button>
+    </div>
     <div id="extra-settings"></div>
   </div>
   <div class="card">
@@ -907,7 +913,13 @@ select option{background:var(--bg3)}
     <p style="font-size:13px;color:var(--text2);margin-bottom:8px"><b>include</b> loads include-&lt;name&gt;.yaml from your profiles folder first; this file overrides it. <b>union_keys</b> lists keys whose lists are combined with the included files instead of replaced.</p>
     <div class="g2">
       <div><div style="display:flex;gap:7px;margin-bottom:6px"><input type="text" id="includeInput" placeholder="e.g. hunting" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addInclude()"><button class="btn small primary" onclick="addInclude()">Add include</button></div><div id="include-tags"></div></div>
-      <div><div style="display:flex;gap:7px;margin-bottom:6px"><input type="text" id="unionKeyInput" list="any-key-list" placeholder="e.g. loot_additions" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addUnionKey()"><button class="btn small primary" onclick="addUnionKey()">Add key</button></div><div id="union-tags"></div></div>
+      <div><div style="display:flex;gap:7px;margin-bottom:6px">
+        <div style="flex:1;position:relative">
+          <input type="text" id="unionKeyInput" autocomplete="off" placeholder="e.g. loot_additions" style="width:100%;margin-bottom:0" onkeydown="if(event.key==='Enter')addUnionKey()">
+          <div id="union-key-dropdown" class="hz-dropdown" style="display:none"></div>
+        </div>
+        <button class="btn small primary" onclick="addUnionKey()">Add key</button>
+      </div><div id="union-tags"></div></div>
     </div>
   </div>
   <div class="card">
@@ -4782,7 +4794,40 @@ function startTool(){
       const dd=w.querySelector('.hz-dropdown');
       if(dd&&dd.style.display!=='none'&&!w.contains(e.target)) closeDD(dd);
     });
+    [['anyKeyInput','any-key-dropdown'],['unionKeyInput','union-key-dropdown']].forEach(([iid,did])=>{
+      const idd=document.getElementById(did), iinp=document.getElementById(iid);
+      if(idd&&idd.style.display!=='none'&&e.target!==iinp&&!idd.contains(e.target)) closeDD(idd);
+    });
   });
+  // The "Add any base.yaml setting" / "union_keys" free-text inputs used a
+  // native <datalist> for suggestions, which renders with un-themeable
+  // browser chrome (the "white dropdown"). Give them the same panel instead.
+  function wireKeySuggest(inputId,ddId,onPick){
+    const inp=document.getElementById(inputId), dd=document.getElementById(ddId);
+    if(!inp||!dd) return;
+    function render(){
+      const q=inp.value.trim().toLowerCase();
+      const all=allKnownKeys();
+      const matches=(q?all.filter(k=>k.toLowerCase().includes(q)):all).slice(0,300);
+      dd.innerHTML='';
+      if(!matches.length){
+        const e=document.createElement('div'); e.className='hz-empty'; e.textContent='No matching settings';
+        dd.appendChild(e);
+      }else{
+        matches.forEach(k=>{
+          const row=document.createElement('div'); row.className='hz-option'; row.textContent=k;
+          row.onmousedown=(ev)=>{ ev.preventDefault(); };
+          row.onclick=()=>{ inp.value=k; closeDD(dd); onPick(); };
+          dd.appendChild(row);
+        });
+      }
+      dd.style.display='';
+    }
+    inp.addEventListener('focus',render);
+    inp.addEventListener('input',render);
+  }
+  wireKeySuggest('anyKeyInput','any-key-dropdown',addExtraSetting);
+  wireKeySuggest('unionKeyInput','union-key-dropdown',addUnionKey);
 })();
 
 startTool();
