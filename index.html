@@ -475,33 +475,33 @@ select option{background:var(--bg3)}
     <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Type <b style="color:var(--blue2)">INV WEAPONS FULL</b> in-game. Enter adjective noun for each slot you train. Leave blank to skip. Use the toggles to set whether each weapon is worn, swappable, or wielded — these go into the <b style="color:var(--blue2)">gear:</b> section automatically.</p>
     <div id="weapon-slots"></div>
     <div class="g2" style="margin-top:10px">
-      <div><label class="lbl">Dance skill <span class="hint">weapon SKILL trained via dance actions — not the weapon itself</span></label>
+      <div><label class="lbl">Dance skill <span class="hint">weapon SKILL trained via dance actions — not the weapon itself</span><button type="button" class="info-ic" data-fi="danceSkill">i</button></label>
         <select id="danceSkill" onchange="updateCurrentPreview()"><option value="">— choose skill —</option></select></div>
-      <div><label class="lbl">Fatigue regen action</label><input type="text" id="fatigueRegenAction" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Fatigue regen action<button type="button" class="info-ic" data-fi="fatigueRegenAction">i</button></label><input type="text" id="fatigueRegenAction" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2" style="margin-top:4px">
       <div>
-        <label class="lbl">Skip last kill</label>
+        <label class="lbl">Skip last kill<button type="button" class="info-ic" data-fi="skipLastKill">i</button></label>
         <div class="toggle-wrap" onclick="togA('skipLastKill')"><div class="toggle-track" id="tr-skipLastKill"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skipLastKill">No</span></div>
       </div>
       <div>
-        <label class="lbl">Left hand free</label>
+        <label class="lbl">Left hand free<button type="button" class="info-ic" data-fi="leftHandFree">i</button></label>
         <div class="toggle-wrap" onclick="togA('leftHandFree')"><div class="toggle-track" id="tr-leftHandFree"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-leftHandFree">No</span></div>
       </div>
       <div>
-        <label class="lbl">Offhand thrown</label>
+        <label class="lbl">Offhand thrown<button type="button" class="info-ic" data-fi="offhandThrown">i</button></label>
         <div class="toggle-wrap" onclick="togA('offhandThrown')"><div class="toggle-track" id="tr-offhandThrown"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-offhandThrown">No</span></div>
       </div>
       <div id="tws-row">
-        <label class="lbl">Train with spells <span class="hint">crossing-training casts training_spells</span></label>
+        <label class="lbl">Train with spells <span class="hint">crossing-training casts training_spells</span><button type="button" class="info-ic" data-fi="trainWithSpells">i</button></label>
         <div class="toggle-wrap" onclick="togA('trainWithSpells')"><div class="toggle-track" id="tr-trainWithSpells"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-trainWithSpells">No</span></div>
       </div>
       <div>
-        <label class="lbl">Use stealth attacks</label>
+        <label class="lbl">Use stealth attacks<button type="button" class="info-ic" data-fi="stealthAttacks">i</button></label>
         <div class="toggle-wrap" onclick="togA('stealthAttacks')"><div class="toggle-track" id="tr-stealthAttacks"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-stealthAttacks">No</span></div>
       </div>
       <div>
-        <label class="lbl">Don't stalk</label>
+        <label class="lbl">Don't stalk<button type="button" class="info-ic" data-fi="dontStalk">i</button></label>
         <div class="toggle-wrap" onclick="togA('dontStalk')"><div class="toggle-track" id="tr-dontStalk"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-dontStalk">No</span></div>
       </div>
     </div>
@@ -524,7 +524,7 @@ select option{background:var(--bg3)}
     </div>
     <div id="armor-gear-list"></div>
     <div style="border-top:1px solid var(--border2);padding-top:10px;margin-top:10px">
-      <label class="lbl">gear_sets <span class="hint">standard is your hunting set; add more (e.g. stealing, swimming) and pick items for them under ▼ edit</span></label>
+      <label class="lbl">gear_sets <span class="hint">standard is your hunting set; add more (e.g. stealing, swimming) and pick items for them under ▼ edit</span><button type="button" class="info-ic" data-fi="newGearSetName">i</button></label>
       <div style="display:flex;gap:7px;margin-bottom:6px"><input type="text" id="newGearSetName" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addGearSetName()"><button class="btn small primary" onclick="addGearSetName()">Add set</button></div>
       <div id="gear-set-names"></div>
     </div>
@@ -541,13 +541,13 @@ select option{background:var(--bg3)}
   <div class="card">
     <div class="sec-head">Repairs</div>
     <div class="g3">
-      <div><label class="lbl">Withdrawal amount <span class="hint">coins to pull for repairs</span></label><input type="number" id="repairWithdrawal" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Repair every <span class="hint">hunts</span></label><input type="number" id="repairEvery" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Repair timer <span class="hint">seconds between repairs</span></label><input type="number" id="repairTimer" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Withdrawal amount <span class="hint">coins to pull for repairs</span><button type="button" class="info-ic" data-fi="repairWithdrawal">i</button></label><input type="number" id="repairWithdrawal" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Repair every <span class="hint">hunts</span><button type="button" class="info-ic" data-fi="repairEvery">i</button></label><input type="number" id="repairEvery" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Repair timer <span class="hint">seconds between repairs</span><button type="button" class="info-ic" data-fi="repairTimer">i</button></label><input type="number" id="repairTimer" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Repair heuristic gear <span class="hint">items checked to decide when to repair, one per line</span></label><textarea id="repairHeuristicGear" rows="2" oninput="updateCurrentPreview()"></textarea></div>
-      <div><label class="lbl">Repair heuristic threshold</label><input type="number" id="repairHeuristicThreshold" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Repair heuristic gear <span class="hint">items checked to decide when to repair, one per line</span><button type="button" class="info-ic" data-fi="repairHeuristicGear">i</button></label><textarea id="repairHeuristicGear" rows="2" oninput="updateCurrentPreview()"></textarea></div>
+      <div><label class="lbl">Repair heuristic threshold<button type="button" class="info-ic" data-fi="repairHeuristicThreshold">i</button></label><input type="number" id="repairHeuristicThreshold" oninput="updateCurrentPreview()"></div>
     </div>
   </div>
   <div class="section-preview" id="sp-repairs"><div class="section-preview-head">📋 YAML Preview — Repairs</div><div class="section-preview-body" id="sp-repairs-body"></div></div>
@@ -556,15 +556,15 @@ select option{background:var(--bg3)}
     <div class="sec-head">Listening</div>
     <div class="g2">
       <div>
-        <label class="lbl">Listen <span class="hint">attend classes in safe room</span></label>
+        <label class="lbl">Listen <span class="hint">attend classes in safe room</span><button type="button" class="info-ic" data-fi="listen">i</button></label>
         <div class="toggle-wrap" onclick="togA('listen')"><div class="toggle-track" id="tr-listen"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-listen">No</span></div>
       </div>
       <div>
-        <label class="lbl">Listen observe</label>
+        <label class="lbl">Listen observe<button type="button" class="info-ic" data-fi="listenObserve">i</button></label>
         <div class="toggle-wrap" onclick="togA('listenObserve')"><div class="toggle-track" id="tr-listenObserve"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-listenObserve">No</span></div>
       </div>
     </div>
-    <div class="g2"><div><label class="lbl">Avoid athletics in justice towns <span class="hint">avoid_athletics_in_justice</span></label><div class="toggle-wrap" onclick="togA('avoidAthleticsInJustice')"><div class="toggle-track" id="tr-avoidAthleticsInJustice"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-avoidAthleticsInJustice">No</span></div></div></div>
+    <div class="g2"><div><label class="lbl">Avoid athletics in justice towns <span class="hint">avoid_athletics_in_justice</span><button type="button" class="info-ic" data-fi="avoidAthleticsInJustice">i</button></label><div class="toggle-wrap" onclick="togA('avoidAthleticsInJustice')"><div class="toggle-track" id="tr-avoidAthleticsInJustice"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-avoidAthleticsInJustice">No</span></div></div></div>
   </div>
   <div class="section-preview" id="sp-listen"><div class="section-preview-head">📋 YAML Preview — Listening</div><div class="section-preview-body" id="sp-listen-body"></div></div>
 
@@ -572,11 +572,11 @@ select option{background:var(--bg3)}
     <div class="sec-head">Escort (bescort)</div>
     <div class="g2">
       <div>
-        <label class="lbl">Fare handling <span class="hint">pull money from bank for ferry fares</span></label>
+        <label class="lbl">Fare handling <span class="hint">pull money from bank for ferry fares</span><button type="button" class="info-ic" data-fi="bescortFare">i</button></label>
         <div class="toggle-wrap" onclick="togA('bescortFare')"><div class="toggle-track" id="tr-bescortFare"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-bescortFare">No</span></div>
       </div>
       <div>
-        <label class="lbl">Hide during escort</label>
+        <label class="lbl">Hide during escort<button type="button" class="info-ic" data-fi="bescortHide">i</button></label>
         <div class="toggle-wrap" onclick="togA('bescortHide')"><div class="toggle-track" id="tr-bescortHide"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-bescortHide">No</span></div>
       </div>
     </div>
@@ -587,10 +587,10 @@ select option{background:var(--bg3)}
     <div class="sec-head">Looting / Junk</div>
     <div class="g2">
       <div>
-        <label class="lbl">Dump junk <span class="hint">automatically discard worthless items</span></label>
+        <label class="lbl">Dump junk <span class="hint">automatically discard worthless items</span><button type="button" class="info-ic" data-fi="dumpJunk">i</button></label>
         <div class="toggle-wrap" onclick="togA('dumpJunk')"><div class="toggle-track" id="tr-dumpJunk"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-dumpJunk">No</span></div>
       </div>
-      <div><label class="lbl">Dump item count <span class="hint">wait for this many items before junking</span></label><input type="number" id="dumpItemCount" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Dump item count <span class="hint">wait for this many items before junking</span><button type="button" class="info-ic" data-fi="dumpItemCount">i</button></label><input type="number" id="dumpItemCount" oninput="updateCurrentPreview()"></div>
     </div>
   </div>
   <div class="section-preview" id="sp-dump"><div class="section-preview-head">📋 YAML Preview — Junk</div><div class="section-preview-body" id="sp-dump-body"></div></div>
@@ -599,24 +599,24 @@ select option{background:var(--bg3)}
     <div class="sec-head">Skinning</div>
     <div class="g3">
       <div>
-        <label class="lbl">Skin</label>
+        <label class="lbl">Skin<button type="button" class="info-ic" data-fi="skinSkin">i</button></label>
         <div class="toggle-wrap" onclick="togA('skinSkin')"><div class="toggle-track" id="tr-skinSkin"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinSkin">No</span></div>
       </div>
       <div>
-        <label class="lbl">Arrange all</label>
+        <label class="lbl">Arrange all<button type="button" class="info-ic" data-fi="skinArrangeAll">i</button></label>
         <div class="toggle-wrap" onclick="togA('skinArrangeAll')"><div class="toggle-track" id="tr-skinArrangeAll"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinArrangeAll">No</span></div>
       </div>
-      <div><label class="lbl">Arrange count</label><input type="number" id="skinArrangeCount" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Arrange count<button type="button" class="info-ic" data-fi="skinArrangeCount">i</button></label><input type="number" id="skinArrangeCount" oninput="updateCurrentPreview()"></div>
       <div>
-        <label class="lbl">Tie bundle</label>
+        <label class="lbl">Tie bundle<button type="button" class="info-ic" data-fi="skinTieBundle">i</button></label>
         <div class="toggle-wrap" onclick="togA('skinTieBundle')"><div class="toggle-track" id="tr-skinTieBundle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinTieBundle">No</span></div>
       </div>
       <div>
-        <label class="lbl">Dissect</label>
+        <label class="lbl">Dissect<button type="button" class="info-ic" data-fi="skinDissect">i</button></label>
         <div class="toggle-wrap" onclick="togA('skinDissect')"><div class="toggle-track" id="tr-skinDissect"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinDissect">No</span></div>
       </div>
-<div><label class="lbl">Dissect for Thanatology <span class="hint">Necromancers</span></label><div class="toggle-wrap" onclick="togA('skinDissectThan')"><div class="toggle-track" id="tr-skinDissectThan"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinDissectThan">No</span></div></div>
-      <div><label class="lbl">Dissect priority</label>
+<div><label class="lbl">Dissect for Thanatology <span class="hint">Necromancers</span><button type="button" class="info-ic" data-fi="skinDissectThan">i</button></label><div class="toggle-wrap" onclick="togA('skinDissectThan')"><div class="toggle-track" id="tr-skinDissectThan"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skinDissectThan">No</span></div></div>
+      <div><label class="lbl">Dissect priority<button type="button" class="info-ic" data-fi="skinDissectPriority">i</button></label>
         <select id="skinDissectPriority" onchange="updateCurrentPreview()">
           <option value="">— none —</option>
           <option>Skinning</option>
@@ -4923,7 +4923,41 @@ function startTool(){
     useFavorAltars:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'use_favor_altars'},
     waterHolder:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'water_holder',extra:'Clerics also use this item for theurgy.'},
     favorOrbFreq:{status:'optional',yamlKey:'favor_orb_rub_frequency',extra:'In seconds.'},
-    favorTown:{status:'optional',yamlKey:'favor_town',extra:'Leave blank to use your hometown.'}
+    favorTown:{status:'optional',yamlKey:'favor_town',extra:'Leave blank to use your hometown.'},
+
+    danceSkill:{status:'optional',yamlKey:'dance_skill',extra:"The weapon SKILL trained via dance actions — not the weapon slot itself."},
+    fatigueRegenAction:{status:'optional',yamlKey:'fatigue_regen_action'},
+    skipLastKill:{status:'optional',yamlKey:'skip_last_kill'},
+    leftHandFree:{status:'optional',yamlKey:'left_hand_free'},
+    offhandThrown:{status:'optional',yamlKey:'offhand_thrown'},
+    trainWithSpells:{status:'optional',yamlKey:'train_with_spells',extra:'Only shown for spellcasting guilds — crossing-training casts your training_spells list.'},
+    stealthAttacks:{status:'optional',yamlKey:'use_stealth_attacks'},
+    dontStalk:{status:'optional',yamlKey:'dont_stalk'},
+    newGearSetName:{status:'optional',desc:"gear_sets — named outfits beyond your default hunting gear (e.g. stealing, swimming). Add a set here, then pick which armor pieces belong to it under its ▼ edit."},
+
+    repairWithdrawal:{status:'optional',yamlKey:'repair_withdrawal_amount',extra:'Coins to pull from the bank for repairs.'},
+    repairEvery:{status:'optional',yamlKey:'repair_every',extra:'In hunts.'},
+    repairTimer:{status:'optional',yamlKey:'repair_timer',extra:'Seconds between repair attempts.'},
+    repairHeuristicGear:{status:'optional',yamlKey:'repair_heuristic_gear',extra:'One item per line.'},
+    repairHeuristicThreshold:{status:'optional',yamlKey:'repair_heuristic_threshold'},
+
+    listen:{status:'optional',yamlKey:'listen',extra:'Attend classes while in your safe room.'},
+    listenObserve:{status:'optional',yamlKey:'listen_observe'},
+    avoidAthleticsInJustice:{status:'optional',yamlKey:'avoid_athletics_in_justice'},
+
+    bescortFare:{status:'optional',yamlKey:'bescort_fare_handling',extra:'Pulls money from the bank to cover ferry fares during an escort.'},
+    bescortHide:{status:'optional',yamlKey:'bescort_hide'},
+
+    dumpJunk:{status:'optional',yamlKey:'dump_junk',extra:'Automatically discards worthless items.'},
+    dumpItemCount:{status:'optional',yamlKey:'dump_item_count',extra:'Waits for this many junk items before dumping.'},
+
+    skinSkin:{status:'optional',desc:"skinning.skin — skin corpses after a kill."},
+    skinArrangeAll:{status:'optional',desc:"skinning.arrange_all — arrange all available pelts/hides at once instead of one at a time."},
+    skinArrangeCount:{status:'optional',desc:"skinning.arrange_count — how many pelts/hides to arrange at a time, if not arranging all."},
+    skinTieBundle:{status:'optional',desc:"skinning.tie_bundle — tie skinned materials into a bundle."},
+    skinDissect:{status:'optional',desc:"skinning.dissect — dissect corpses for Skinning/First Aid/Cycle experience instead of just skinning."},
+    skinDissectThan:{status:'optional',desc:"skinning.dissect_for_thanatology — dissect for Thanatology experience. Necromancers only."},
+    skinDissectPriority:{status:'optional',desc:"skinning.dissect_priority — which skill dissection should prioritize training."}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
