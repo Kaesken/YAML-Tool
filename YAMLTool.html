@@ -294,8 +294,8 @@ select option{background:var(--bg3)}
       <button class="btn small" onclick="setTextbook('textbook')" id="tb-textbook">Textbook</button>
       <button class="btn small" onclick="setTextbook('compendium')" id="tb-compendium">Compendium</button>
     </div>
-    <div id="textbook-row" style="display:none"><label class="lbl">Textbook type <span class="hint">exact noun from inventory</span></label><input type="text" id="textbookType"></div>
-    <div id="compendium-row" style="display:none"><label class="lbl">Compendium noun <span class="hint">exact noun from inventory</span></label><input type="text" id="compendiumNoun"></div>
+    <div id="textbook-row" style="display:none"><label class="lbl">Textbook type <span class="hint">exact noun from inventory</span><button type="button" class="info-ic" data-fi="textbookType">i</button></label><input type="text" id="textbookType"></div>
+    <div id="compendium-row" style="display:none"><label class="lbl">Compendium noun <span class="hint">exact noun from inventory</span><button type="button" class="info-ic" data-fi="compendiumNoun">i</button></label><input type="text" id="compendiumNoun"></div>
   </div>
   <div class="section-preview" id="sp-textbook"><div class="section-preview-head">📋 YAML Preview — Textbook / Compendium</div><div class="section-preview-body" id="sp-textbook-body"></div></div>
 
@@ -328,33 +328,33 @@ select option{background:var(--bg3)}
   <!-- Features section folded into Basics -->
   <div class="card">
     <div class="sec-head">Burgling</div>
-    <div class="toggle-wrap" onclick="togA('hasBurgle')"><div class="toggle-track" id="tr-hasBurgle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBurgle">Enable burgle</span></div>
+    <div class="toggle-wrap" onclick="togA('hasBurgle')"><div class="toggle-track" id="tr-hasBurgle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBurgle">Enable burgle</span><button type="button" class="info-ic" data-fi="hasBurgle">i</button></div>
     <div id="burgle-extra" style="display:none">
-      <div class="toggle-wrap" onclick="togA('t2BurgleEveryBlock')"><div class="toggle-track" id="tr-t2BurgleEveryBlock"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-t2BurgleEveryBlock">Burgle every training block</span></div>
+      <div class="toggle-wrap" onclick="togA('t2BurgleEveryBlock')"><div class="toggle-track" id="tr-t2BurgleEveryBlock"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-t2BurgleEveryBlock">Burgle every training block</span><button type="button" class="info-ic" data-fi="t2BurgleEveryBlock">i</button></div>
       <div class="g3">
-        <div><label class="lbl">Burgle room ID</label><input type="text" id="burgleRoom" oninput="updateCurrentPreview()"></div>
-        <div><label class="lbl">Loot container</label>
+        <div><label class="lbl">Burgle room ID<button type="button" class="info-ic" data-fi="burgleRoom">i</button></label><input type="text" id="burgleRoom" oninput="updateCurrentPreview()"></div>
+        <div><label class="lbl">Loot container<button type="button" class="info-ic" data-fi="burgleLootContainer">i</button></label>
           <select id="burgleLootContainer" onchange="updateCurrentPreview()">
             <option value="">— choose container —</option>
           </select></div>
-        <div><label class="lbl">Entry type</label>
+        <div><label class="lbl">Entry type<button type="button" class="info-ic" data-fi="burgleEntryType">i</button></label>
           <select id="burgleEntryType" onchange="syncToggleRows();updateCurrentPreview()"><option value="lockpick">lockpick</option><option value="rope">rope</option><option value="cycle">cycle (alternate lockpick and rope)</option><option value="prioritylockpick">prioritylockpick (lockpick, rope if none)</option><option value="priorityrope">priorityrope (rope, lockpick if none)</option></select>
         </div>
       </div>
       <div class="g3">
-        <div><label class="lbl">Loot <span class="hint">what to do with what you take</span></label><select id="burgleLoot" onchange="updateCurrentPreview()"><option>pawn</option><option>keep</option><option>bin</option><option>drop</option><option>trashcan</option></select></div>
-        <div><label class="lbl">Max searches</label><input type="number" id="burgleMaxSearch" min="1" placeholder="2" oninput="updateCurrentPreview()"></div>
-        <div><label class="lbl">Burgle town <span class="hint">burgle_settings.hometown</span></label><select id="burgleHometown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
+        <div><label class="lbl">Loot <span class="hint">what to do with what you take</span><button type="button" class="info-ic" data-fi="burgleLoot">i</button></label><select id="burgleLoot" onchange="updateCurrentPreview()"><option>pawn</option><option>keep</option><option>bin</option><option>drop</option><option>trashcan</option></select></div>
+        <div><label class="lbl">Max searches<button type="button" class="info-ic" data-fi="burgleMaxSearch">i</button></label><input type="number" id="burgleMaxSearch" min="1" placeholder="2" oninput="updateCurrentPreview()"></div>
+        <div><label class="lbl">Burgle town <span class="hint">burgle_settings.hometown</span><button type="button" class="info-ic" data-fi="burgleHometown">i</button></label><select id="burgleHometown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
       </div>
       <div class="g3">
-        <div id="burgle-lockpick-row"><label class="lbl">Lockpick container</label><input type="text" id="burgleLockpickContainer" placeholder="lockpick ring" oninput="updateCurrentPreview()"></div>
-        <div id="burgle-rope-row"><label class="lbl">Rope adjective</label><input type="text" id="burgleRopeAdj" placeholder="heavy" oninput="updateCurrentPreview()"></div>
+        <div id="burgle-lockpick-row"><label class="lbl">Lockpick container<button type="button" class="info-ic" data-fi="burgleLockpickContainer">i</button></label><input type="text" id="burgleLockpickContainer" placeholder="lockpick ring" oninput="updateCurrentPreview()"></div>
+        <div id="burgle-rope-row"><label class="lbl">Rope adjective<button type="button" class="info-ic" data-fi="burgleRopeAdj">i</button></label><input type="text" id="burgleRopeAdj" placeholder="heavy" oninput="updateCurrentPreview()"></div>
       </div>
-      <div class="g3"><div><label class="lbl">Use lockpick ring</label><div class="toggle-wrap" onclick="togA('burgleLockpickRing')"><div class="toggle-track" id="tr-burgleLockpickRing"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleLockpickRing">No</span></div></div><div><label class="lbl">Retry <span class="hint">try again after a failed entry</span></label><div class="toggle-wrap" onclick="togA('burgleRetry')"><div class="toggle-track" id="tr-burgleRetry"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleRetry">No</span></div></div><div><label class="lbl">Safe mode <span class="hint">leave when someone shows up</span></label><div class="toggle-wrap" onclick="togA('burgleSafeMode')"><div class="toggle-track" id="tr-burgleSafeMode"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleSafeMode">No</span></div></div></div>
-      <div style="margin-bottom:6px"><label class="lbl">Room blacklist <span class="hint">room ids to skip, one per line</span></label>
+      <div class="g3"><div><label class="lbl">Use lockpick ring<button type="button" class="info-ic" data-fi="burgleLockpickRing">i</button></label><div class="toggle-wrap" onclick="togA('burgleLockpickRing')"><div class="toggle-track" id="tr-burgleLockpickRing"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleLockpickRing">No</span></div></div><div><label class="lbl">Retry <span class="hint">try again after a failed entry</span><button type="button" class="info-ic" data-fi="burgleRetry">i</button></label><div class="toggle-wrap" onclick="togA('burgleRetry')"><div class="toggle-track" id="tr-burgleRetry"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleRetry">No</span></div></div><div><label class="lbl">Safe mode <span class="hint">leave when someone shows up</span><button type="button" class="info-ic" data-fi="burgleSafeMode">i</button></label><div class="toggle-wrap" onclick="togA('burgleSafeMode')"><div class="toggle-track" id="tr-burgleSafeMode"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-burgleSafeMode">No</span></div></div></div>
+      <div style="margin-bottom:6px"><label class="lbl">Room blacklist <span class="hint">room ids to skip, one per line</span><button type="button" class="info-ic" data-fi="burgleRoomBlacklist">i</button></label>
         <textarea id="burgleRoomBlacklist" style="min-height:50px" oninput="updateCurrentPreview()"></textarea>
       </div>
-      <div><label class="lbl">Item whitelist <span class="hint">items to keep even when loot is pawn/bin/drop, one per line</span></label>
+      <div><label class="lbl">Item whitelist <span class="hint">items to keep even when loot is pawn/bin/drop, one per line</span><button type="button" class="info-ic" data-fi="burgleItemWhitelist">i</button></label>
         <textarea id="burgleItemWhitelist" style="min-height:50px" oninput="updateCurrentPreview()"></textarea>
       </div>
     </div>
@@ -363,10 +363,10 @@ select option{background:var(--bg3)}
 
   <div class="card">
     <div class="sec-head">Locksmithing</div>
-    <div class="toggle-wrap" onclick="togA('hasBoxes')"><div class="toggle-track" id="tr-hasBoxes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBoxes">Enable box picking</span></div>
+    <div class="toggle-wrap" onclick="togA('hasBoxes')"><div class="toggle-track" id="tr-hasBoxes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBoxes">Enable box picking</span><button type="button" class="info-ic" data-fi="hasBoxes">i</button></div>
     <div id="boxes-extra" style="display:none">
       <div style="margin-bottom:9px">
-        <label class="lbl">Box source containers <span class="hint">containers scripts search for boxes — add multiple</span></label>
+        <label class="lbl">Box source containers <span class="hint">containers scripts search for boxes — add multiple</span><button type="button" class="info-ic" data-fi="boxSourceSelect">i</button></label>
         <div style="display:flex;gap:7px;margin-bottom:6px">
           <select id="boxSourceSelect" style="flex:1;margin-bottom:0">
             <option value="">— choose container —</option>
@@ -377,27 +377,27 @@ select option{background:var(--bg3)}
       </div>
       <div class="g2" style="margin-bottom:9px">
         <div>
-          <label class="lbl">Skip lockpick ring refill</label>
+          <label class="lbl">Skip lockpick ring refill<button type="button" class="info-ic" data-fi="skipRingRefill">i</button></label>
           <div class="toggle-wrap" onclick="togA('skipRingRefill')"><div class="toggle-track" id="tr-skipRingRefill"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-skipRingRefill">No</span></div>
         </div>
         <div id="refill-town-row">
-          <label class="lbl">Refill town <span class="hint">nearest town with a locksmith shop, if your hometown lacks one</span></label>
+          <label class="lbl">Refill town <span class="hint">nearest town with a locksmith shop, if your hometown lacks one</span><button type="button" class="info-ic" data-fi="refillTown">i</button></label>
           <select id="refillTown" onchange="renderLockpickTypes();updateCurrentPreview()"><option value="">— hometown (default) —</option></select>
         </div>
       </div>
       <div class="g3">
-        <div><label class="lbl">Lockpick type <span class="hint">optional when refilling</span></label>
+        <div><label class="lbl">Lockpick type <span class="hint">optional when refilling</span><button type="button" class="info-ic" data-fi="lockpickType">i</button></label>
           <select id="lockpickType" onchange="updateCurrentPreview()"><option value="">— base default —</option></select><div id="lockpick-note" class="warn"></div>
         </div>
-        <div><label class="lbl">Box loot limit <span class="hint">stop looting boxes once you carry this many; blank = no limit</span></label><input type="number" id="boxLootLimit" min="1" oninput="updateCurrentPreview()"></div>
+        <div><label class="lbl">Box loot limit <span class="hint">stop looting boxes once you carry this many; blank = no limit</span><button type="button" class="info-ic" data-fi="boxLootLimit">i</button></label><input type="number" id="boxLootLimit" min="1" oninput="updateCurrentPreview()"></div>
         <div>
-          <label class="lbl">Stop pick on mindlock</label>
+          <label class="lbl">Stop pick on mindlock<button type="button" class="info-ic" data-fi="stopPickMindlock">i</button></label>
           <div class="toggle-wrap" onclick="togA('stopPickMindlock')"><div class="toggle-track" id="tr-stopPickMindlock"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-stopPickMindlock">No</span></div>
         </div>
       </div>
-      <div class="g3"><div><label class="lbl">Use lockpick ring</label><div class="toggle-wrap" onclick="togA('useLockpickRing')"><div class="toggle-track" id="tr-useLockpickRing"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useLockpickRing">No</span></div></div><div><label class="lbl">Lockpick container</label><input type="text" id="lockpickContainer" placeholder="lockpick ring" oninput="updateCurrentPreview()"></div><div><label class="lbl">Fill gem pouch from boxes</label><div class="toggle-wrap" onclick="togA('fillPouchWithBox')"><div class="toggle-track" id="tr-fillPouchWithBox"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-fillPouchWithBox">No</span></div></div></div>
-      <div class="g2"><div><label class="lbl">Harvest traps <span class="hint">pick.harvest_traps</span></label><div class="toggle-wrap" onclick="togA('harvestTraps')"><div class="toggle-track" id="tr-harvestTraps"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-harvestTraps">No</span></div></div><div id="component-container-row"><label class="lbl">Component container</label><select id="componentContainer" onchange="updateCurrentPreview()"><option value="">— choose container —</option></select></div></div>
-      <div style="margin-bottom:5px"><label class="lbl">Trap blacklist <span class="hint">traps pick won't disarm</span></label></div>
+      <div class="g3"><div><label class="lbl">Use lockpick ring<button type="button" class="info-ic" data-fi="useLockpickRing">i</button></label><div class="toggle-wrap" onclick="togA('useLockpickRing')"><div class="toggle-track" id="tr-useLockpickRing"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useLockpickRing">No</span></div></div><div><label class="lbl">Lockpick container<button type="button" class="info-ic" data-fi="lockpickContainer">i</button></label><input type="text" id="lockpickContainer" placeholder="lockpick ring" oninput="updateCurrentPreview()"></div><div><label class="lbl">Fill gem pouch from boxes<button type="button" class="info-ic" data-fi="fillPouchWithBox">i</button></label><div class="toggle-wrap" onclick="togA('fillPouchWithBox')"><div class="toggle-track" id="tr-fillPouchWithBox"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-fillPouchWithBox">No</span></div></div></div>
+      <div class="g2"><div><label class="lbl">Harvest traps <span class="hint">pick.harvest_traps</span><button type="button" class="info-ic" data-fi="harvestTraps">i</button></label><div class="toggle-wrap" onclick="togA('harvestTraps')"><div class="toggle-track" id="tr-harvestTraps"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-harvestTraps">No</span></div></div><div id="component-container-row"><label class="lbl">Component container<button type="button" class="info-ic" data-fi="componentContainer">i</button></label><select id="componentContainer" onchange="updateCurrentPreview()"><option value="">— choose container —</option></select></div></div>
+      <div style="margin-bottom:5px"><label class="lbl">Trap blacklist <span class="hint">traps pick won't disarm</span><button type="button" class="info-ic" data-fi="trapBlacklist">i</button></label></div>
       <div id="trap-btns"></div>
     </div>
   </div>
@@ -405,32 +405,32 @@ select option{background:var(--bg3)}
   <div class="card">
     <div class="sec-head">Looting</div>
     <div class="g3">
-      <div><label class="lbl">Sell loot money on hand <span class="hint">keep this much, deposit the rest — e.g. 3 silver</span></label><input type="text" id="sellLootMoneyOnHand" placeholder="3 silver" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Gem pouch adjective</label><input type="text" id="gemPouchAdj" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Gem pouch noun</label><input type="text" id="gemPouchNoun" placeholder="pouch" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Sell loot money on hand <span class="hint">keep this much, deposit the rest — e.g. 3 silver</span><button type="button" class="info-ic" data-fi="sellLootMoneyOnHand">i</button></label><input type="text" id="sellLootMoneyOnHand" placeholder="3 silver" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Gem pouch adjective<button type="button" class="info-ic" data-fi="gemPouchAdj">i</button></label><input type="text" id="gemPouchAdj" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Gem pouch noun<button type="button" class="info-ic" data-fi="gemPouchNoun">i</button></label><input type="text" id="gemPouchNoun" placeholder="pouch" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Spare pouch container</label>
+      <div><label class="lbl">Spare pouch container<button type="button" class="info-ic" data-fi="sparePouchContainer">i</button></label>
           <select id="sparePouchContainer" onchange="onPouchContainerChange('spare')">
             <option value="">— choose container —</option>
           </select></div>
-      <div><label class="lbl">Full pouch container</label>
+      <div><label class="lbl">Full pouch container<button type="button" class="info-ic" data-fi="fullPouchContainer">i</button></label>
           <select id="fullPouchContainer" onchange="onPouchContainerChange('full')">
             <option value="">— choose container —</option>
           </select></div>
     </div>
     <div>
-      <label class="lbl">Tie gem pouches</label>
+      <label class="lbl">Tie gem pouches<button type="button" class="info-ic" data-fi="tieGemPouches">i</button></label>
       <div class="toggle-wrap" onclick="togA('tieGemPouches')"><div class="toggle-track" id="tr-tieGemPouches"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-tieGemPouches">No</span></div>
     </div>
     <div class="sec-head" style="margin-top:12px">sell-loot</div>
-    <div class="g3"><div><label class="lbl">Skip bank</label><div class="toggle-wrap" onclick="togA('sellLootSkipBank')"><div class="toggle-track" id="tr-sellLootSkipBank"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootSkipBank">No</span></div></div><div><label class="lbl">Skip exchange</label><div class="toggle-wrap" onclick="togA('sellLootSkipExchange')"><div class="toggle-track" id="tr-sellLootSkipExchange"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootSkipExchange">No</span></div></div><div><label class="lbl">Sell bundles</label><div class="toggle-wrap" onclick="togA('sellLootBundle')"><div class="toggle-track" id="tr-sellLootBundle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootBundle">No</span></div></div><div><label class="lbl">Sell metals and stones</label><div class="toggle-wrap" onclick="togA('sellLootMetals')"><div class="toggle-track" id="tr-sellLootMetals"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootMetals">No</span></div></div><div><label class="lbl">Sell trap parts</label><div class="toggle-wrap" onclick="togA('sellLootTraps')"><div class="toggle-track" id="tr-sellLootTraps"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootTraps">No</span></div></div><div><label class="lbl">Sell gem pouches</label><div class="toggle-wrap" onclick="togA('sellLootPouch')"><div class="toggle-track" id="tr-sellLootPouch"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootPouch">No</span></div></div></div>
-    <div><label class="lbl">Sell loot town <span class="hint">sell_loot_town</span></label><select id="sellLootTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
+    <div class="g3"><div><label class="lbl">Skip bank<button type="button" class="info-ic" data-fi="sellLootSkipBank">i</button></label><div class="toggle-wrap" onclick="togA('sellLootSkipBank')"><div class="toggle-track" id="tr-sellLootSkipBank"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootSkipBank">No</span></div></div><div><label class="lbl">Skip exchange<button type="button" class="info-ic" data-fi="sellLootSkipExchange">i</button></label><div class="toggle-wrap" onclick="togA('sellLootSkipExchange')"><div class="toggle-track" id="tr-sellLootSkipExchange"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootSkipExchange">No</span></div></div><div><label class="lbl">Sell bundles<button type="button" class="info-ic" data-fi="sellLootBundle">i</button></label><div class="toggle-wrap" onclick="togA('sellLootBundle')"><div class="toggle-track" id="tr-sellLootBundle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootBundle">No</span></div></div><div><label class="lbl">Sell metals and stones<button type="button" class="info-ic" data-fi="sellLootMetals">i</button></label><div class="toggle-wrap" onclick="togA('sellLootMetals')"><div class="toggle-track" id="tr-sellLootMetals"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootMetals">No</span></div></div><div><label class="lbl">Sell trap parts<button type="button" class="info-ic" data-fi="sellLootTraps">i</button></label><div class="toggle-wrap" onclick="togA('sellLootTraps')"><div class="toggle-track" id="tr-sellLootTraps"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootTraps">No</span></div></div><div><label class="lbl">Sell gem pouches<button type="button" class="info-ic" data-fi="sellLootPouch">i</button></label><div class="toggle-wrap" onclick="togA('sellLootPouch')"><div class="toggle-track" id="tr-sellLootPouch"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-sellLootPouch">No</span></div></div></div>
+    <div><label class="lbl">Sell loot town <span class="hint">sell_loot_town</span><button type="button" class="info-ic" data-fi="sellLootTown">i</button></label><select id="sellLootTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
     <div class="g2">
-      <div><label class="lbl">Loot additions <span class="hint">extra items to pick up, one per line</span></label><textarea id="lootAdditions" rows="3" oninput="updateCurrentPreview()"></textarea></div>
-      <div><label class="lbl">Loot subtractions <span class="hint">items never to pick up, one per line</span></label><textarea id="lootSubtractions" rows="3" oninput="updateCurrentPreview()"></textarea></div>
+      <div><label class="lbl">Loot additions <span class="hint">extra items to pick up, one per line</span><button type="button" class="info-ic" data-fi="lootAdditions">i</button></label><textarea id="lootAdditions" rows="3" oninput="updateCurrentPreview()"></textarea></div>
+      <div><label class="lbl">Loot subtractions <span class="hint">items never to pick up, one per line</span><button type="button" class="info-ic" data-fi="lootSubtractions">i</button></label><textarea id="lootSubtractions" rows="3" oninput="updateCurrentPreview()"></textarea></div>
     </div>
-    <label class="lbl">Loot specials <span class="hint">loot_specials — item noun and the bag it goes in</span></label>
+    <label class="lbl">Loot specials <span class="hint">loot_specials — item noun and the bag it goes in</span><button type="button" class="info-ic" data-fi="lootSpecialName">i</button></label>
     <div style="display:flex;gap:7px;margin-bottom:6px"><input type="text" id="lootSpecialName" placeholder="item" style="flex:1;margin-bottom:0"><input type="text" id="lootSpecialBag" placeholder="bag" style="flex:1;margin-bottom:0"><button class="btn small primary" onclick="addLootSpecial()">Add</button></div>
     <div id="loot-special-tags"></div>
   </div>
@@ -438,10 +438,10 @@ select option{background:var(--bg3)}
   <div class="card">
     <div class="sec-head">Favors</div>
     <div class="g2">
-      <div><label class="lbl">Favor god</label>
+      <div><label class="lbl">Favor god<button type="button" class="info-ic" data-fi="favorGod">i</button></label>
         <select id="favorGod" onchange="onFavorGodChange()"><option value="">— choose —</option></select>
       </div>
-      <div><label class="lbl">Favor goal</label><input type="number" id="favorGoal" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Favor goal<button type="button" class="info-ic" data-fi="favorGoal">i</button></label><input type="number" id="favorGoal" oninput="updateCurrentPreview()"></div>
     </div>
     <div id="favor-altar-section" style="display:none">
       <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:10px;margin-bottom:10px;">
@@ -450,23 +450,23 @@ select option{background:var(--bg3)}
       </div>
       <div class="g2">
         <div>
-          <label class="lbl">Use favor altars</label>
+          <label class="lbl">Use favor altars<button type="button" class="info-ic" data-fi="useFavorAltars">i</button></label>
           <div class="toggle-wrap" onclick="togA('useFavorAltars')"><div class="toggle-track" id="tr-useFavorAltars"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useFavorAltars">No</span></div>
         </div>
-        <div><label class="lbl">Water holder</label><input type="text" id="waterHolder" oninput="updateCurrentPreview()"></div>
+        <div><label class="lbl">Water holder<button type="button" class="info-ic" data-fi="waterHolder">i</button></label><input type="text" id="waterHolder" oninput="updateCurrentPreview()"></div>
       </div>
     </div>
     <div id="favor-neutral-note" style="display:none;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:10px;margin-bottom:10px;">
       <div style="font-size:13px;color:var(--green);">✓ Neutral Immortal — favor altars are optional.</div>
       <div style="margin-top:8px">
-        <div class="toggle-wrap" onclick="togA('useFavorAltars')"><div class="toggle-track" id="tr-useFavorAltars2"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useFavorAltars2">No</span></div>
+        <div class="toggle-wrap" onclick="togA('useFavorAltars')"><div class="toggle-track" id="tr-useFavorAltars2"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useFavorAltars2">No</span><button type="button" class="info-ic" data-fi="useFavorAltars">i</button></div>
       </div>
       <div id="water-holder-neutral-row" style="display:none;margin-top:8px">
-        <label class="lbl">Water holder <span class="hint">needed for altars; Clerics also use it for theurgy</span></label>
+        <label class="lbl">Water holder <span class="hint">needed for altars; Clerics also use it for theurgy</span><button type="button" class="info-ic" data-fi="waterHolder">i</button></label>
         <input type="text" id="waterHolderNeutral" oninput="document.getElementById('waterHolder').value=this.value;updateCurrentPreview()">
       </div>
     </div>
-    <div class="g2"><div><label class="lbl">Orb rub frequency <span class="hint">seconds</span></label><input type="number" id="favorOrbFreq" oninput="updateCurrentPreview()"></div><div><label class="lbl">Favor town <span class="hint">favor_town — where to get favors</span></label><select id="favorTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div></div>
+    <div class="g2"><div><label class="lbl">Orb rub frequency <span class="hint">seconds</span><button type="button" class="info-ic" data-fi="favorOrbFreq">i</button></label><input type="number" id="favorOrbFreq" oninput="updateCurrentPreview()"></div><div><label class="lbl">Favor town <span class="hint">favor_town — where to get favors</span><button type="button" class="info-ic" data-fi="favorTown">i</button></label><select id="favorTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div></div>
   </div>
   <div class="section-preview" id="sp-favors"><div class="section-preview-head">📋 YAML Preview — Favors</div><div class="section-preview-body" id="sp-favors-body"></div></div>
 
@@ -4845,7 +4845,7 @@ function startTool(){
 })();
 
 // ════════════════════════════════════════════════════════
-//  Field info (ⓘ) popovers — prototype, Character Basics only.
+//  Field info (ⓘ) popovers.
 //  Click the small "i" next to a label for an elaborate
 //  description and whether the setting is required.
 // ════════════════════════════════════════════════════════
@@ -4866,7 +4866,64 @@ function startTool(){
     wornInstrument:{status:'optional',yamlKey:'worn_instrument'},
     handArmor:{status:'optional',yamlKey:'hand_armor'},
     stopBleed:{status:'optional',yamlKey:'stop_hunting_if_bleeding',extra:"Starts on, matching base.yaml's own default."},
-    climbRope:{status:'optional',yamlKey:'have_climbing_rope'}
+    climbRope:{status:'optional',yamlKey:'have_climbing_rope'},
+
+    textbookType:{status:'optional',yamlKey:'textbook_type',extra:"Only used when you've marked that you carry a textbook (above). Must exactly match the item's noun in your inventory."},
+    compendiumNoun:{status:'optional',yamlKey:'compendium_type',extra:"For burgled manuals/guides used like a compendium. Must exactly match the item's noun in your inventory."},
+
+    hasBurgle:{status:'optional',desc:"Turns on burgling (breaking into containers/boxes while hunting). When on, a Burgle room ID becomes required, and the rest of this card is written into burgle_settings in your YAML."},
+    t2BurgleEveryBlock:{status:'optional',yamlKey:'t2_burgle_every_block',desc:"If on, T2 training burgles during every training block instead of only some."},
+    burgleRoom:{status:'required',statusLabel:'Required if burgling',desc:"burgle_settings.room — the room id to return to and burgle. Required once Enable burgle is on; type ids in-game to see a room's number."},
+    burgleLootContainer:{status:'optional',desc:"burgle_settings.loot_container — where to put items taken from burgled boxes, when Loot isn't 'drop' or 'trashcan'."},
+    burgleEntryType:{status:'optional',desc:"burgle_settings.entry_type — how to get into the burgle room: lockpick, rope, or cycle/priority combinations of the two."},
+    burgleLoot:{status:'optional',desc:"burgle_settings.loot — what to do with items found while burgling: pawn, keep, bin, drop, or trashcan."},
+    burgleMaxSearch:{status:'optional',desc:"burgle_settings.max_search_count — how many times to search before giving up on a box. Defaults to 2 if left blank."},
+    burgleHometown:{status:'optional',desc:"burgle_settings.hometown — town used for burgle-related travel (e.g. pawning loot), if different from your main hometown."},
+    burgleLockpickContainer:{status:'optional',desc:"burgle_settings.lockpick_container — container holding your lockpicks, used when entry type is lockpick/cycle. Defaults to 'lockpick ring'."},
+    burgleRopeAdj:{status:'optional',desc:"burgle_settings.rope_adjective — the adjective of the rope to use, when entry type is rope/cycle."},
+    burgleLockpickRing:{status:'optional',desc:"burgle_settings.use_lockpick_ring — whether your lockpicks are worn as a ring. Defaults to on."},
+    burgleRetry:{status:'optional',desc:"burgle_settings.retry — try entry again after a failed attempt instead of giving up."},
+    burgleSafeMode:{status:'optional',desc:"burgle_settings.safe_mode — leave the burgle room if someone else shows up. Defaults to on."},
+    burgleRoomBlacklist:{status:'optional',desc:"burgle_settings.room_blacklist — room ids to never burgle (e.g. known traps), one per line."},
+    burgleItemWhitelist:{status:'optional',desc:"burgle_settings.item_whitelist — items to always keep even when Loot is set to pawn/bin/drop, one per line."},
+
+    hasBoxes:{status:'optional',desc:"Turns on box/lockpicking as a training activity. When on, the pick settings below are written into your YAML's pick object."},
+    boxSourceSelect:{status:'optional',desc:"pick.picking_box_sources — containers the script searches for boxes to pick. Add as many as you use."},
+    skipRingRefill:{status:'optional',yamlKey:'skip_lockpick_ring_refill'},
+    refillTown:{status:'optional',yamlKey:'refill_town',extra:'Only used when Skip lockpick ring refill is off. Leave blank to use your hometown.'},
+    lockpickType:{status:'optional',yamlKey:'lockpick_type',extra:'Only needed if you refill lockpicks and want a specific type.'},
+    boxLootLimit:{status:'optional',desc:"box_loot_limit — stop looting boxes once you're carrying this many; leave blank for no limit."},
+    stopPickMindlock:{status:'optional',yamlKey:'stop_pick_on_mindlock'},
+    useLockpickRing:{status:'optional',yamlKey:'use_lockpick_ring'},
+    lockpickContainer:{status:'optional',yamlKey:'lockpick_container'},
+    fillPouchWithBox:{status:'optional',yamlKey:'fill_pouch_with_box'},
+    harvestTraps:{status:'optional',desc:"pick.harvest_traps — collect trap components after disarming a trap, instead of just disarming it."},
+    componentContainer:{status:'optional',desc:"pick.component_container — where to put harvested trap components. Only used when Harvest traps is on."},
+    trapBlacklist:{status:'optional',desc:"pick.trap_blacklist — specific traps the script should not try to disarm, picked from the list below."},
+
+    sellLootMoneyOnHand:{status:'optional',yamlKey:'sell_loot_money_on_hand',extra:"e.g. '3 silver' — scripts deposit everything above this amount."},
+    gemPouchAdj:{status:'optional',desc:"gem_pouch_adjective — the adjective of your gem pouch, so scripts can find and fill it automatically."},
+    gemPouchNoun:{status:'optional',yamlKey:'gem_pouch_noun',extra:"Defaults to 'pouch' if left blank."},
+    sparePouchContainer:{status:'recommended',desc:"spare_gem_pouch_container — where scripts look for a spare gem pouch once the current one is full."},
+    fullPouchContainer:{status:'recommended',desc:"full_pouch_container — where scripts store a gem pouch once it's full."},
+    tieGemPouches:{status:'optional',yamlKey:'tie_gem_pouches'},
+    sellLootSkipBank:{status:'optional',yamlKey:'sell_loot_skip_bank'},
+    sellLootSkipExchange:{status:'optional',yamlKey:'sell_loot_skip_exchange'},
+    sellLootBundle:{status:'optional',yamlKey:'sell_loot_bundle'},
+    sellLootMetals:{status:'optional',yamlKey:'sell_loot_metals_and_stones'},
+    sellLootTraps:{status:'optional',yamlKey:'sell_loot_traps'},
+    sellLootPouch:{status:'optional',yamlKey:'sell_loot_pouch'},
+    sellLootTown:{status:'optional',yamlKey:'sell_loot_town',extra:'Leave blank to use your hometown.'},
+    lootAdditions:{status:'optional',yamlKey:'loot_additions'},
+    lootSubtractions:{status:'optional',yamlKey:'loot_subtractions'},
+    lootSpecialName:{status:'optional',desc:"loot_specials — pairs an item's noun with the specific bag it should go in when looted, instead of your default container."},
+
+    favorGod:{status:'required',desc:"favor_god — whose shrine your checkfavors script visits. Picking a Light or Dark Immortal also requires favor altars and a water holder; Neutral Immortals don't need either."},
+    favorGoal:{status:'optional',yamlKey:'favor_goal',extra:'How many favors to accumulate before stopping.'},
+    useFavorAltars:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'use_favor_altars'},
+    waterHolder:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'water_holder',extra:'Clerics also use this item for theurgy.'},
+    favorOrbFreq:{status:'optional',yamlKey:'favor_orb_rub_frequency',extra:'In seconds.'},
+    favorTown:{status:'optional',yamlKey:'favor_town',extra:'Leave blank to use your hometown.'}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
