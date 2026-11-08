@@ -328,9 +328,9 @@ select option{background:var(--bg3)}
   <!-- Features section folded into Basics -->
   <div class="card">
     <div class="sec-head">Burgling</div>
-    <div class="toggle-wrap" onclick="togA('hasBurgle')"><div class="toggle-track" id="tr-hasBurgle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBurgle">Enable burgle</span><button type="button" class="info-ic" data-fi="hasBurgle">i</button></div>
+    <div style="display:flex;align-items:center"><div class="toggle-wrap" onclick="togA('hasBurgle')"><div class="toggle-track" id="tr-hasBurgle"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBurgle">Enable burgle</span></div><button type="button" class="info-ic" data-fi="hasBurgle">i</button></div>
     <div id="burgle-extra" style="display:none">
-      <div class="toggle-wrap" onclick="togA('t2BurgleEveryBlock')"><div class="toggle-track" id="tr-t2BurgleEveryBlock"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-t2BurgleEveryBlock">Burgle every training block</span><button type="button" class="info-ic" data-fi="t2BurgleEveryBlock">i</button></div>
+      <div style="display:flex;align-items:center"><div class="toggle-wrap" onclick="togA('t2BurgleEveryBlock')"><div class="toggle-track" id="tr-t2BurgleEveryBlock"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-t2BurgleEveryBlock">Burgle every training block</span></div><button type="button" class="info-ic" data-fi="t2BurgleEveryBlock">i</button></div>
       <div class="g3">
         <div><label class="lbl">Burgle room ID<button type="button" class="info-ic" data-fi="burgleRoom">i</button></label><input type="text" id="burgleRoom" oninput="updateCurrentPreview()"></div>
         <div><label class="lbl">Loot container<button type="button" class="info-ic" data-fi="burgleLootContainer">i</button></label>
@@ -363,7 +363,7 @@ select option{background:var(--bg3)}
 
   <div class="card">
     <div class="sec-head">Locksmithing</div>
-    <div class="toggle-wrap" onclick="togA('hasBoxes')"><div class="toggle-track" id="tr-hasBoxes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBoxes">Enable box picking</span><button type="button" class="info-ic" data-fi="hasBoxes">i</button></div>
+    <div style="display:flex;align-items:center"><div class="toggle-wrap" onclick="togA('hasBoxes')"><div class="toggle-track" id="tr-hasBoxes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-hasBoxes">Enable box picking</span></div><button type="button" class="info-ic" data-fi="hasBoxes">i</button></div>
     <div id="boxes-extra" style="display:none">
       <div style="margin-bottom:9px">
         <label class="lbl">Box source containers <span class="hint">containers scripts search for boxes — add multiple</span><button type="button" class="info-ic" data-fi="boxSourceSelect">i</button></label>
@@ -459,7 +459,7 @@ select option{background:var(--bg3)}
     <div id="favor-neutral-note" style="display:none;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:10px;margin-bottom:10px;">
       <div style="font-size:13px;color:var(--green);">✓ Neutral Immortal — favor altars are optional.</div>
       <div style="margin-top:8px">
-        <div class="toggle-wrap" onclick="togA('useFavorAltars')"><div class="toggle-track" id="tr-useFavorAltars2"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useFavorAltars2">No</span><button type="button" class="info-ic" data-fi="useFavorAltars">i</button></div>
+        <div style="display:flex;align-items:center"><div class="toggle-wrap" onclick="togA('useFavorAltars')"><div class="toggle-track" id="tr-useFavorAltars2"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-useFavorAltars2">No</span></div><button type="button" class="info-ic" data-fi="useFavorAltars">i</button></div>
       </div>
       <div id="water-holder-neutral-row" style="display:none;margin-top:8px">
         <label class="lbl">Water holder <span class="hint">needed for altars; Clerics also use it for theurgy</span><button type="button" class="info-ic" data-fi="waterHolder">i</button></label>
@@ -3457,14 +3457,15 @@ function mkCard(parent,title,color){
   parent.appendChild(card);return card;
 }
 function mkGrid(parent,cols){ const g=document.createElement('div'); g.className=cols===3?'g3':'g2'; parent.appendChild(g); return g; }
+const GUILD_INFO_ICON=id=>`<button type="button" class="info-ic" data-fi="g_${id}">i</button>`;
 function mkField(parent,id,label,placeholder,val){
   const w=document.createElement('div');
-  w.innerHTML=`<label class="lbl">${label}</label><input type="text" id="g_${id}" placeholder="${t2esc(placeholder||'')}" value="${t2esc(val||'')}">`;
+  w.innerHTML=`<label class="lbl">${label}${GUILD_INFO_ICON(id)}</label><input type="text" id="g_${id}" placeholder="${t2esc(placeholder||'')}" value="${t2esc(val||'')}">`;
   parent.appendChild(w);return w;
 }
 function mkNum(parent,id,label,placeholder){
   const w=document.createElement('div');
-  w.innerHTML=`<label class="lbl">${label}</label><input type="number" id="g_${id}" placeholder="${t2esc(placeholder==null?'':placeholder)}">`;
+  w.innerHTML=`<label class="lbl">${label}${GUILD_INFO_ICON(id)}</label><input type="number" id="g_${id}" placeholder="${t2esc(placeholder==null?'':placeholder)}">`;
   parent.appendChild(w);return w;
 }
 // A toggle whose starting value is base.yaml's value for baseKey (or def).
@@ -3473,8 +3474,8 @@ function mkTog(parent,id,label,baseKeyOrDef,onChange){
   if(T['g_'+id]===undefined||!TOUCHED.has('g_'+id)) T['g_'+id]=def;
   const on=T['g_'+id];
   const w=document.createElement('div');w.className='toggle-wrap';w.style.cursor='pointer';
-  w.innerHTML=`<div class="toggle-track${on?' on':''}" id="tr-g_${id}"><div class="toggle-thumb"></div></div><span class="toggle-label">${label}</span>`;
-  w.onclick=()=>{T['g_'+id]=!T['g_'+id];TOUCHED.add('g_'+id);document.getElementById('tr-g_'+id).classList.toggle('on',T['g_'+id]);if(onChange)onChange(T['g_'+id]);if(typeof updateCurrentPreview==='function')updateCurrentPreview();};
+  w.innerHTML=`<div class="toggle-track${on?' on':''}" id="tr-g_${id}"><div class="toggle-thumb"></div></div><span class="toggle-label">${label}</span>${GUILD_INFO_ICON(id)}`;
+  w.onclick=(ev)=>{ if(ev.target.closest('.info-ic')) return; T['g_'+id]=!T['g_'+id];TOUCHED.add('g_'+id);document.getElementById('tr-g_'+id).classList.toggle('on',T['g_'+id]);if(onChange)onChange(T['g_'+id]);if(typeof updateCurrentPreview==='function')updateCurrentPreview();};
   parent.appendChild(w);
   if(onChange) setTimeout(()=>onChange(T['g_'+id]),0);
   return w;
@@ -3482,12 +3483,12 @@ function mkTog(parent,id,label,baseKeyOrDef,onChange){
 // opts: strings or [value,label] pairs
 function mkSel(parent,id,label,opts,val){
   const w=document.createElement('div');
-  w.innerHTML=`<label class="lbl">${label}</label><select id="g_${id}">${opts.map(o=>{ const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${t2esc(ov)}"${ov===val?' selected':''}>${t2esc(ol)}</option>`; }).join('')}</select>`;
+  w.innerHTML=`<label class="lbl">${label}${GUILD_INFO_ICON(id)}</label><select id="g_${id}">${opts.map(o=>{ const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${t2esc(ov)}"${ov===val?' selected':''}>${t2esc(ol)}</option>`; }).join('')}</select>`;
   parent.appendChild(w);return w;
 }
 function mkTA(parent,id,label,placeholder,val){
   const w=document.createElement('div');
-  w.innerHTML=`<label class="lbl">${label}</label><textarea id="g_${id}" placeholder="${t2esc(placeholder||'')}" style="min-height:60px">${t2esc(val||'')}</textarea>`;
+  w.innerHTML=`<label class="lbl">${label}${GUILD_INFO_ICON(id)}</label><textarea id="g_${id}" placeholder="${t2esc(placeholder||'')}" style="min-height:60px">${t2esc(val||'')}</textarea>`;
   parent.appendChild(w);return w;
 }
 function mkNote(parent,html){ const p=document.createElement('p'); p.className='placeholder'; p.style.margin='4px 0 8px'; p.innerHTML=html; parent.appendChild(p); return p; }
@@ -4850,6 +4851,31 @@ function startTool(){
 //  description and whether the setting is required.
 // ════════════════════════════════════════════════════════
 (function(){
+  // Auto-derived id → base.yaml key map for guild-specific fields (see buildGuildDoc's
+  // tb()/str()/num()/put() calls). Used as a fallback when FIELD_INFO has no g_<id> entry,
+  // so every guild field gets a popover even without a hand-written description.
+  const GUILD_KEY_MAP={
+    lastRites:'last_rites', tithe:'tithe', usePrayerMat:'theurgy_use_prayer_mat', useManaGlyph:'paladin_use_mana_glyph',
+    useBadge:'paladin_use_badge', prayChadatru:'pray_to_chadatru', permashocked:'permashocked', hasHodierna:'has_hodierna',
+    manipulateOnlyToTrain:'manipulate_only_to_train', necroRedeemed:'necro_redeemed', dissectAndButcher:'dissect_and_butcher',
+    necroForceRituals:'necro_force_rituals', necroForceSafeRoom:'necro_force_safe_room', useAnalyzeCombos:'use_analyze_combos',
+    sitToMeditate:'sit_to_meditate', warStomp:'war_stomp_on_cooldown', stompToEngage:'stomp_to_engage',
+    pounceOnCooldown:'pounce_on_cooldown', pounceToEngage:'pounce_to_engage', ambush:'ambush',
+    backstabPastMindlock:'backstab_past_mindlock', kneelKhri:'kneel_khri', caravanInterior:'caravan_interior',
+    tradeUseStable:'trade_use_stable', theurgyContainer:'theurgy_supply_container', flintLighter:'flint_lighter',
+    osrelFavorGod:'osrel_favor_god', immortalAspect:'immortal_aspect', prayerMatType:'prayer_mat',
+    noHealEmpathylink:'noheal_empathylink', roarHelmNoun:'roar_helm_noun', warhorn:'warhorn',
+    summonedElement:'summoned_weapons_element', ambushLocation:'ambush_location', backstab:'backstab',
+    tradeContractContainer:'trade_contract_container', tesseraNoun:'tessera_noun', summonedIngot:'summoned_weapons_ingot',
+    osrelAmount:'osrel_amount', manipulateThreshold:'manipulate_threshold', meditationPauseTimer:'meditation_pause_timer',
+    barbInnerFire:'barb_buffs_inner_fire_threshold', flameInnerFire:'flame_inner_fire_threshold',
+    flameExpertise:'flame_expertise_training_threshold', battleCryCooldown:'battle_cry_cooldown',
+    warhornCooldown:'warhorn_cooldown', astrologyPoolTarget:'astrology_pool_target', auraFrequency:'aura_frequency',
+    caravanCoinsOnHand:'caravan_coins_on_hand', tesseraRetryInterval:'tessera_retry_interval',
+    tesseraMindstates:'tessera_mindstates', tesseraStartupDelay:'tessera_startup_delay',
+    dualLoad:'dual_load', ambushStunWeapons:'ambush_stun_weapons', khriAdaptation:'khri_adaptation',
+    whirlwindTrainables:'whirlwind_trainables'
+  };
   const FIELD_INFO={
     charName:{status:'required',desc:"Your character's first name, used only to name the output file — Lich looks for an exact <Name>-setup.yaml, so whatever you type here (capitalized) becomes that filename."},
     guild:{status:'recommended',desc:"Your character's guild. The form doesn't require one, but most of the rest of the tool — spells, training slots, Guild Settings — only shows up once a guild is picked, since those scripts read different settings per guild."},
@@ -4986,27 +5012,79 @@ function startTool(){
     dedicatedCamb:{status:'optional',yamlKey:'dedicated_camb_use',extra:"e.g. 'spell' — reserves cambrinth items for one specific use instead of sharing charges across everything."},
     cambDistribute:{status:'optional',yamlKey:'cambrinth_distribute_charges',extra:'Only shown when you have more than one cambrinth item.'},
     cambrinthPaste:{status:'optional',title:'Cambrinth',desc:"Cambrinth items you wear that store and release magical charges. Paste your inventory or add manually, then set how charges are used below."},
-    roarsAsBattleCries:{status:'optional',desc:"If on, your roars are written as battle_cries instead of buff_nonspells, so combat-trainer triggers them with battle_cry_cooldown instead of a normal buff cooldown."}
+    roarsAsBattleCries:{status:'optional',desc:"If on, your roars are written as battle_cries instead of buff_nonspells, so combat-trainer triggers them with battle_cry_cooldown instead of a normal buff cooldown."},
+
+    g_waterHolder:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'water_holder',extra:'Clerics also use this item for theurgy, communes, and bead carving.'},
+    g_osrelHarness:{status:'optional',desc:"osrel_no_harness (inverted) — whether to harness before infusing for Osrel Meraud. On here means off in the YAML."},
+    g_thanatRitualType:{status:'optional',desc:"thanatology.ritual_type — which ritual Thanatology uses."},
+    g_thanatHarvestContainer:{status:'optional',desc:"thanatology.harvest_container — where to put harvested components."},
+    g_thanatHarvestCount:{status:'optional',desc:"thanatology.harvest_count — how many components to harvest per corpse."},
+    g_thanatHeal:{status:'optional',desc:"thanatology.heal — allow Thanatology to be used for healing."},
+    g_thanatStore:{status:'optional',desc:"thanatology.store — allow Thanatology to store harvested components."},
+    g_zombieMake:{status:'optional',desc:"zombie.make — create zombies, casting your \"zombie\" waggle set."},
+    g_zombieSummon:{status:'optional',desc:"zombie.summon — summon zombies you've already made."},
+    g_zombieStance:{status:'optional',desc:"zombie.stance — the combat stance your zombies fight in."},
+    g_zombieBehavior:{status:'optional',desc:"zombie.behavior — how aggressively your zombies behave."},
+    g_famineHealthThresh:{status:'optional',statusLabel:'Needs its pair',desc:"barb_famine_healing.health_threshold — triggers Famine Berserk healing below this health percent. Must be set together with the inner fire threshold, or neither is written."},
+    g_famineInnerFire:{status:'optional',statusLabel:'Needs its pair',desc:"barb_famine_healing.inner_fire_threshold — triggers Famine Berserk healing below this inner fire percent. Must be set together with the health threshold, or neither is written."},
+    g_pathwayFocusCooldown:{status:'optional',desc:"buff_nonspells: 'pathway focus damage' — refreshes Pathway Focus Damage on this cooldown, in seconds."},
+    g_useTessera:{status:'optional',desc:"Turns on tessera use for trading. When on, the tessera noun and timing settings below are written to your YAML."},
+
+    g_theurgyContainer:{status:'recommended',desc:"theurgy_supply_container — where your prayer beads, water holder, and other theurgy supplies are kept."},
+    g_tithe:{status:'optional',desc:"tithe — tithe to the local church when visiting, which raises devotion."},
+    g_usePrayerMat:{status:'optional',desc:"theurgy_use_prayer_mat — kneel on a prayer mat while praying/communing instead of just standing."},
+    g_osrelFavorGod:{status:'optional',desc:"osrel_favor_god — which god's favor the Osrel Meraud training ability pulls from."},
+    g_osrelAmount:{status:'optional',desc:"osrel_amount — how much favor/coin to spend per Osrel Meraud use."},
+    g_useManaGlyph:{status:'optional',desc:"paladin_use_mana_glyph — use the Paladin mana glyph ability to regain mana."},
+    g_useBadge:{status:'optional',desc:"paladin_use_badge — use your Paladin badge ability."},
+    g_prayChadatru:{status:'optional',desc:"pray_to_chadatru — pray to Chadatru for healing."},
+    g_nonspellAugm:{status:'optional',desc:"training_nonspells.Augmentation — which berserk/khri trains your Augmentation skill."},
+    g_nonspellDebi:{status:'optional',desc:"training_nonspells.Debilitation — which berserk/khri trains your Debilitation skill."},
+    g_nonspellWard:{status:'optional',desc:"training_nonspells.Warding — which berserk/khri trains your Warding skill."},
+    g_nonspellUtil:{status:'optional',desc:"training_nonspells.Utility — which berserk/khri trains your Utility skill."},
+    g_astrologyPoolTarget:{status:'optional',desc:"astrology_pool_target — how many points to pool with astrology before casting a prediction."},
+    g_astroPredMagic:{status:'optional',desc:"astrology_prediction_skills.magic — skill to use for the Magic prediction category."},
+    g_astroPredLore:{status:'optional',desc:"astrology_prediction_skills.lore — skill to use for the Lore prediction category."},
+    g_astroPredOffense:{status:'optional',desc:"astrology_prediction_skills.offense — skill to use for the Offense prediction category."},
+    g_astroPredDefense:{status:'optional',desc:"astrology_prediction_skills.defense — skill to use for the Defense prediction category."},
+    g_astroPredSurvival:{status:'optional',desc:"astrology_prediction_skills.survival — skill to use for the Survival prediction category."},
+    g_summonedElement:{status:'optional',desc:"summoned_weapons_element — the element your summoned weapons are conjured from."}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
-    const lbl=btn.closest('label'); if(!lbl) return '';
-    let lead='';
-    for(const n of lbl.childNodes){ if(n.nodeType===3) lead+=n.textContent; else break; }
-    lead=lead.trim();
-    if(lead) return lead;
-    let all='';
-    lbl.childNodes.forEach(n=>{ if(n.nodeType===3) all+=n.textContent; });
-    return all.trim();
+    const lbl=btn.closest('label');
+    if(lbl){
+      let lead='';
+      for(const n of lbl.childNodes){ if(n.nodeType===3) lead+=n.textContent; else break; }
+      lead=lead.trim();
+      if(lead) return lead;
+      let all='';
+      lbl.childNodes.forEach(n=>{ if(n.nodeType===3) all+=n.textContent; });
+      return all.trim();
+    }
+    const tl=btn.parentElement&&btn.parentElement.querySelector(':scope > .toggle-label');
+    if(tl) return tl.textContent.trim();
+    return '';
+  }
+  function hintTextOf(btn){
+    const container=btn.closest('label,div')||btn.parentElement;
+    const hint=container&&container.querySelector('.hint');
+    return hint?hint.textContent.trim():'';
   }
   const pop=document.createElement('div'); pop.className='field-info-pop'; document.body.appendChild(pop);
   let openBtn=null;
   function closePop(){ pop.style.display='none'; if(openBtn) openBtn.classList.remove('on'); openBtn=null; }
   function openPop(btn){
     if(openBtn===btn){ closePop(); return; }
-    const id=btn.dataset.fi, info=FIELD_INFO[id]; if(!info) return;
+    const id=btn.dataset.fi;
+    let info=FIELD_INFO[id];
+    if(!info&&id.startsWith('g_')){
+      const key=GUILD_KEY_MAP[id.slice(2)];
+      info=key?{status:'optional',yamlKey:key}:{status:'optional'};
+    }
+    if(!info) return;
     const title=info.title||labelTextOf(btn)||id;
-    const desc=info.desc||(info.yamlKey?keyInfo(info.yamlKey):'')||'No description available yet.';
+    const desc=info.desc||(info.yamlKey?keyInfo(info.yamlKey):'')||hintTextOf(btn)||'No description available yet.';
     const extra=info.extra?('<br><br>'+t2esc(info.extra)):'';
     const label=info.statusLabel||STATUS_LABEL[info.status]||'Optional';
     pop.innerHTML='<div class="fip-title">'+t2esc(title)+'</div><div class="fip-desc">'+t2esc(desc)+extra+'</div><span class="fip-badge '+info.status+'">'+t2esc(label)+'</span>';
