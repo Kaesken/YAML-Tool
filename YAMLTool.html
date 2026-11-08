@@ -4918,12 +4918,12 @@ function startTool(){
 
     hasBoxes:{status:'optional',title:'Enable box picking',desc:"Turns on box/lockpicking as a training activity. When on, the pick settings below are written into your YAML's pick object."},
     boxSourceSelect:{status:'optional',desc:"pick.picking_box_sources — containers the script searches for boxes to pick. Add as many as you use."},
-    skipRingRefill:{status:'optional',yamlKey:'skip_lockpick_ring_refill'},
+    skipRingRefill:{status:'optional',desc:"skip_lockpick_ring_refill — skip stopping to refill your lockpick ring when it runs low."},
     refillTown:{status:'optional',yamlKey:'refill_town',extra:'Only used when Skip lockpick ring refill is off. Leave blank to use your hometown.'},
     lockpickType:{status:'optional',yamlKey:'lockpick_type',extra:'Only needed if you refill lockpicks and want a specific type.'},
     boxLootLimit:{status:'optional',desc:"box_loot_limit — stop looting boxes once you're carrying this many; leave blank for no limit."},
     stopPickMindlock:{status:'optional',yamlKey:'stop_pick_on_mindlock'},
-    useLockpickRing:{status:'optional',yamlKey:'use_lockpick_ring'},
+    useLockpickRing:{status:'optional',desc:"use_lockpick_ring — your lockpicks are worn as a ring instead of carried loose."},
     lockpickContainer:{status:'optional',yamlKey:'lockpick_container'},
     fillPouchWithBox:{status:'optional',yamlKey:'fill_pouch_with_box'},
     harvestTraps:{status:'optional',desc:"pick.harvest_traps — collect trap components after disarming a trap, instead of just disarming it."},
@@ -4932,12 +4932,12 @@ function startTool(){
 
     sellLootMoneyOnHand:{status:'optional',yamlKey:'sell_loot_money_on_hand',extra:"e.g. '3 silver' — scripts deposit everything above this amount."},
     gemPouchAdj:{status:'optional',desc:"gem_pouch_adjective — the adjective of your gem pouch, so scripts can find and fill it automatically."},
-    gemPouchNoun:{status:'optional',yamlKey:'gem_pouch_noun',extra:"Defaults to 'pouch' if left blank."},
+    gemPouchNoun:{status:'optional',desc:"gem_pouch_noun — the noun of your gem pouch (e.g. 'pouch'), used with the adjective above to find and fill it. Defaults to 'pouch' if left blank."},
     sparePouchContainer:{status:'recommended',desc:"spare_gem_pouch_container — where scripts look for a spare gem pouch once the current one is full."},
     fullPouchContainer:{status:'recommended',desc:"full_pouch_container — where scripts store a gem pouch once it's full."},
-    tieGemPouches:{status:'optional',yamlKey:'tie_gem_pouches'},
-    sellLootSkipBank:{status:'optional',yamlKey:'sell_loot_skip_bank'},
-    sellLootSkipExchange:{status:'optional',yamlKey:'sell_loot_skip_exchange'},
+    tieGemPouches:{status:'optional',desc:"tie_gem_pouches — tie gem pouches closed when full, before storing them."},
+    sellLootSkipBank:{status:'optional',desc:"sell_loot_skip_bank — skip depositing coins at the bank when selling loot."},
+    sellLootSkipExchange:{status:'optional',desc:"sell_loot_skip_exchange — skip the coin exchange when selling loot."},
     sellLootBundle:{status:'optional',yamlKey:'sell_loot_bundle'},
     sellLootMetals:{status:'optional',yamlKey:'sell_loot_metals_and_stones'},
     sellLootTraps:{status:'optional',yamlKey:'sell_loot_traps'},
@@ -4948,9 +4948,9 @@ function startTool(){
     lootSpecialName:{status:'optional',desc:"loot_specials — pairs an item's noun with the specific bag it should go in when looted, instead of your default container."},
 
     favorGod:{status:'required',desc:"favor_god — whose shrine your checkfavors script visits. Picking a Light or Dark Immortal also requires favor altars and a water holder; Neutral Immortals don't need either."},
-    favorGoal:{status:'optional',yamlKey:'favor_goal',extra:'How many favors to accumulate before stopping.'},
+    favorGoal:{status:'optional',desc:"favor_goal — how many favors to accumulate before checkfavors stops."},
     useFavorAltars:{status:'required',title:'Use favor altars',statusLabel:'Required for Light/Dark',yamlKey:'use_favor_altars'},
-    waterHolder:{status:'required',statusLabel:'Required for Light/Dark',yamlKey:'water_holder',extra:'Clerics also use this item for theurgy.'},
+    waterHolder:{status:'required',statusLabel:'Required for Light/Dark',desc:"water_holder — the item (e.g. a chalice) that holds water for favor altars. Clerics also use it for theurgy, communes, and bead carving."},
     favorOrbFreq:{status:'optional',yamlKey:'favor_orb_rub_frequency',extra:'In seconds.'},
     favorTown:{status:'optional',yamlKey:'favor_town',extra:'Leave blank to use your hometown.'},
 
@@ -4971,7 +4971,7 @@ function startTool(){
     repairHeuristicThreshold:{status:'optional',yamlKey:'repair_heuristic_threshold'},
 
     listen:{status:'optional',yamlKey:'listen',extra:'Attend classes while in your safe room.'},
-    listenObserve:{status:'optional',yamlKey:'listen_observe'},
+    listenObserve:{status:'optional',desc:"listen_observe — observe lessons in the safe room instead of actively attending them."},
     avoidAthleticsInJustice:{status:'optional',yamlKey:'avoid_athletics_in_justice'},
 
     bescortFare:{status:'optional',yamlKey:'bescort_fare_handling',extra:'Pulls money from the bank to cover ferry fares during an escort.'},
