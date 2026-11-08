@@ -750,7 +750,7 @@ select option{background:var(--bg3)}
       <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Waggle sets are named groups of spells for different situations. Check the ones you want, then assign spells to them in the spell editor below.</p>
       <div id="waggle-preset-list"></div>
       <div style="border-top:1px solid var(--border2);padding-top:10px;margin-top:10px">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Add a custom waggle set:</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">Add a custom waggle set:<button type="button" class="info-ic" data-fi="newWaggleName">i</button></div>
         <div style="display:flex;gap:7px">
           <input type="text" id="newWaggleName" style="flex:1;margin-bottom:0" onkeydown="if(event.key==='Enter')addCustomWaggleSet()">
           <button class="btn small primary" onclick="addCustomWaggleSet()">Add</button>
@@ -763,12 +763,12 @@ select option{background:var(--bg3)}
       <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Expand each spell to set mana, recast, cambrinth, and where to place it.</p>
       <div id="spell-configs"><span style="font-size:13px;color:var(--text3);font-style:italic">Select spells above to configure them here.</span></div>
       <div class="g2" style="margin-top:8px">
-        <div id="sorcery-room-row" style="display:none"><label class="lbl">Sorcery room <span class="hint">crossing_training_sorcery_room</span></label><input type="text" id="sorceryRoom" oninput="updateCurrentPreview()"></div>
-        <div id="prehunt-room-row" style="display:none"><label class="lbl">Prehunt buffing room <span class="hint">prehunt_buffing_room</span></label><input type="text" id="prehuntBuffingRoom" oninput="updateCurrentPreview()"></div>
+        <div id="sorcery-room-row" style="display:none"><label class="lbl">Sorcery room <span class="hint">crossing_training_sorcery_room</span><button type="button" class="info-ic" data-fi="sorceryRoom">i</button></label><input type="text" id="sorceryRoom" oninput="updateCurrentPreview()"></div>
+        <div id="prehunt-room-row" style="display:none"><label class="lbl">Prehunt buffing room <span class="hint">prehunt_buffing_room</span><button type="button" class="info-ic" data-fi="prehuntBuffingRoom">i</button></label><input type="text" id="prehuntBuffingRoom" oninput="updateCurrentPreview()"></div>
       </div>
     </div>
     <div class="card">
-      <div class="sec-head">4 — Cambrinth <span class="hint">optional</span></div>
+      <div class="sec-head">4 — Cambrinth <span class="hint">optional</span><button type="button" class="info-ic" data-fi="cambrinthPaste">i</button></div>
       <p style="font-size:13px;color:var(--text2);margin-bottom:7px">Type <b style="color:var(--blue2)">inv cambrinth full</b> in-game and paste below, or add manually.</p>
       <textarea id="cambrinthPaste"></textarea>
       <div style="display:flex;gap:8px;margin-bottom:8px">
@@ -778,8 +778,8 @@ select option{background:var(--bg3)}
       <div id="cambrinth-config-card" style="display:none">
         <div id="cambrinth-items"></div>
         <div class="g2">
-          <div><label class="lbl">Dedicated cambrinth use <span class="hint">dedicated_camb_use, e.g. spell</span></label><input type="text" id="dedicatedCamb" oninput="updateCurrentPreview()"></div>
-          <div id="camb-multi-row" style="display:none"><div><label class="lbl">Spread charges over every item <span class="hint">cambrinth_distribute_charges</span></label><div class="toggle-wrap" onclick="togA('cambDistribute')"><div class="toggle-track" id="tr-cambDistribute"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-cambDistribute">No</span></div></div></div>
+          <div><label class="lbl">Dedicated cambrinth use <span class="hint">dedicated_camb_use, e.g. spell</span><button type="button" class="info-ic" data-fi="dedicatedCamb">i</button></label><input type="text" id="dedicatedCamb" oninput="updateCurrentPreview()"></div>
+          <div id="camb-multi-row" style="display:none"><div><label class="lbl">Spread charges over every item <span class="hint">cambrinth_distribute_charges</span><button type="button" class="info-ic" data-fi="cambDistribute">i</button></label><div class="toggle-wrap" onclick="togA('cambDistribute')"><div class="toggle-track" id="tr-cambDistribute"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-cambDistribute">No</span></div></div></div>
         </div>
       </div>
     </div>
@@ -806,7 +806,7 @@ select option{background:var(--bg3)}
       <div class="sec-head">Roars <span class="hint">go in buff_nonspells with cooldown in seconds</span></div>
       <div id="barb-roars"></div>
       <div id="barb-roar-cooldowns" style="margin-top:8px"></div>
-      <div style="margin-top:8px"><div><label class="lbl">Write roars as battle_cries <span class="hint">combat-trainer uses them with battle_cry_cooldown instead of buff_nonspells</span></label><div class="toggle-wrap" onclick="togA('roarsAsBattleCries')"><div class="toggle-track" id="tr-roarsAsBattleCries"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-roarsAsBattleCries">No</span></div></div></div>
+      <div style="margin-top:8px"><div><label class="lbl">Write roars as battle_cries <span class="hint">combat-trainer uses them with battle_cry_cooldown instead of buff_nonspells</span><button type="button" class="info-ic" data-fi="roarsAsBattleCries">i</button></label><div class="toggle-wrap" onclick="togA('roarsAsBattleCries')"><div class="toggle-track" id="tr-roarsAsBattleCries"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-roarsAsBattleCries">No</span></div></div></div>
     </div>
     <div class="card">
       <div class="sec-head">2 — barb_buffs selection</div>
@@ -4978,7 +4978,15 @@ function startTool(){
     huntMoons:{status:'optional',desc:"hunting_info[]:moons — only hunt this zone while a moon is up. Mainly useful for Moon Mages."},
 
     ctSkills:{status:'optional',title:'crossing-training',desc:"crossing_training — non-combat skills to train instead of, or alongside, T2. Check the skills you want trained; each gets its own threshold settings."},
-    ctMaxThreshold:{status:'optional',yamlKey:'crossing_training_max_threshold'}
+    ctMaxThreshold:{status:'optional',yamlKey:'crossing_training_max_threshold'},
+
+    sorceryRoom:{status:'optional',yamlKey:'crossing_training_sorcery_room',extra:'Only used if Sorcery is one of your crossing-training skills.'},
+    prehuntBuffingRoom:{status:'optional',yamlKey:'prehunt_buffing_room',extra:"Only used if you've added the prehunt_buffs waggle set — hunting-buddy casts those spells here, in a safe room, before taking you to hunt."},
+    newWaggleName:{status:'optional',title:'Add a custom waggle set',desc:"Waggle sets are named groups of spells for different situations (e.g. hunting vs. travel). Add your own name here, then assign spells to it in the spell editor."},
+    dedicatedCamb:{status:'optional',yamlKey:'dedicated_camb_use',extra:"e.g. 'spell' — reserves cambrinth items for one specific use instead of sharing charges across everything."},
+    cambDistribute:{status:'optional',yamlKey:'cambrinth_distribute_charges',extra:'Only shown when you have more than one cambrinth item.'},
+    cambrinthPaste:{status:'optional',title:'Cambrinth',desc:"Cambrinth items you wear that store and release magical charges. Paste your inventory or add manually, then set how charges are used below."},
+    roarsAsBattleCries:{status:'optional',desc:"If on, your roars are written as battle_cries instead of buff_nonspells, so combat-trainer triggers them with battle_cry_cooldown instead of a normal buff cooldown."}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
