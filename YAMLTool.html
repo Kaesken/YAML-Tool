@@ -77,6 +77,20 @@ select option{background:var(--bg3)}
 .cs-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);
   color:var(--text2);font-size:10px;pointer-events:none}
 .cs-disp{cursor:pointer;padding-right:24px!important}
+.info-ic{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
+  border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  font-size:10px;font-style:italic;font-family:georgia,serif;cursor:pointer;margin-left:5px;
+  vertical-align:middle;line-height:1;padding:0;flex-shrink:0}
+.info-ic:hover,.info-ic.on{border-color:var(--blue);color:var(--blue2)}
+.field-info-pop{position:fixed;z-index:200;width:300px;max-width:calc(100vw - 24px);
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);padding:12px 14px;font-size:13px;line-height:1.5;display:none}
+.field-info-pop .fip-title{font-weight:bold;color:var(--text);margin-bottom:6px;font-size:13px}
+.field-info-pop .fip-desc{color:var(--text2);margin-bottom:10px;white-space:pre-line}
+.fip-badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:bold;letter-spacing:.02em}
+.fip-badge.required{background:var(--red2);color:var(--red)}
+.fip-badge.recommended{background:var(--amber2);color:var(--amber)}
+.fip-badge.optional{background:var(--bg4);color:var(--text3)}
 .spell-chip{background:var(--bg3);border:1px solid var(--border);border-radius:4px;
   color:var(--text2);padding:4px 10px;font-size:13px;cursor:pointer;font-family:var(--mono);
   margin:0 4px 4px 0;transition:all .15s;display:inline-block}
@@ -219,8 +233,8 @@ select option{background:var(--bg3)}
   <div class="card">
     <div class="sec-head">Character basics</div>
     <div class="g2">
-      <div><label class="lbl">Character name <span class="hint">for filename</span></label><input type="text" id="charName" placeholder="first name only" oninput="capCharName(this);updateHeaderSub();updateCurrentPreview()"></div>
-      <div><label class="lbl">Guild</label>
+      <div><label class="lbl">Character name <span class="hint">for filename</span><button type="button" class="info-ic" data-fi="charName">i</button></label><input type="text" id="charName" placeholder="first name only" oninput="capCharName(this);updateHeaderSub();updateCurrentPreview()"></div>
+      <div><label class="lbl">Guild<button type="button" class="info-ic" data-fi="guild">i</button></label>
         <select id="guild" onchange="onGuildChange()">
           <option value="">— choose —</option>
           <option>Barbarian</option><option>Bard</option><option>Cleric</option>
@@ -231,43 +245,43 @@ select option{background:var(--bg3)}
       </div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Hometown</label>
+      <div><label class="lbl">Hometown<button type="button" class="info-ic" data-fi="hometown">i</button></label>
         <select id="hometown" onchange="updateHeaderSub();onHometownChange()"><option value="">— choose —</option></select>
       </div>
-      <div><label class="lbl">Safe room ID <span class="hint">type 'ids' in-game</span></label><input type="text" id="safeRoom" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Safe room ID <span class="hint">type 'ids' in-game</span><button type="button" class="info-ic" data-fi="safeRoom">i</button></label><input type="text" id="safeRoom" oninput="updateCurrentPreview()"></div>
     </div>
     <div id="fang-cove-row" style="display:none;margin-bottom:8px">
       <div style="background:var(--amber2);border:1px solid var(--amber);border-radius:6px;padding:10px;margin-bottom:8px">
         <div style="font-size:13px;color:var(--amber);font-weight:bold;margin-bottom:4px">⚠ Fang Cove Hometown</div>
         <div style="font-size:12px;color:var(--text2)">Many scripts (athletics, burgle, checkfavors, crossing-repair, favor) won't work properly from Fang Cove. Choose a nearby mainland town below so those scripts use it as a faux hometown.</div>
       </div>
-      <label class="lbl">Fang Cove override town <span class="hint">required for Fang Cove residents</span></label>
+      <label class="lbl">Fang Cove override town <span class="hint">required for Fang Cove residents</span><button type="button" class="info-ic" data-fi="fangCoveOverrideTown">i</button></label>
       <select id="fangCoveOverrideTown" onchange="updateCurrentPreview()"><option value="">— choose nearby town —</option></select>
     </div>
     <div class="g2">
-      <div><label class="lbl">Healer town <span class="hint">force_healer_town — where safe-room gets healed</span></label><select id="forceHealerTown" onchange="renderHealerNote();updateCurrentPreview()"><option value="">— hometown (default) —</option></select><div id="healer-note" class="warn"></div></div>
-      <div><label class="lbl">Health threshold <span class="hint">saferoom_health_threshold — heal below this %</span></label><input type="number" id="saferoomHealthThreshold" min="1" max="100" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Healer town <span class="hint">force_healer_town — where safe-room gets healed</span><button type="button" class="info-ic" data-fi="forceHealerTown">i</button></label><select id="forceHealerTown" onchange="renderHealerNote();updateCurrentPreview()"><option value="">— hometown (default) —</option></select><div id="healer-note" class="warn"></div></div>
+      <div><label class="lbl">Health threshold <span class="hint">saferoom_health_threshold — heal below this %</span><button type="button" class="info-ic" data-fi="saferoomHealthThreshold">i</button></label><input type="number" id="saferoomHealthThreshold" min="1" max="100" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Player empath <span class="hint">safe_room_empath — optional</span></label><input type="text" id="safeRoomEmpath" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Empath's room ID <span class="hint">safe_room_id</span></label><input type="text" id="safeRoomId" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Player empath <span class="hint">safe_room_empath — optional</span><button type="button" class="info-ic" data-fi="safeRoomEmpath">i</button></label><input type="text" id="safeRoomEmpath" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Empath's room ID <span class="hint">safe_room_id</span><button type="button" class="info-ic" data-fi="safeRoomId">i</button></label><input type="text" id="safeRoomId" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Worn trashcan <span class="hint">worn_trashcan — a worn bin scripts drop junk into</span></label><input type="text" id="wornTrashcan" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Trashcan verb <span class="hint">worn_trashcan_verb, e.g. put</span></label><input type="text" id="wornTrashcanVerb" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Worn trashcan <span class="hint">worn_trashcan — a worn bin scripts drop junk into</span><button type="button" class="info-ic" data-fi="wornTrashcan">i</button></label><input type="text" id="wornTrashcan" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Trashcan verb <span class="hint">worn_trashcan_verb, e.g. put</span><button type="button" class="info-ic" data-fi="wornTrashcanVerb">i</button></label><input type="text" id="wornTrashcanVerb" oninput="updateCurrentPreview()"></div>
     </div>
-    <div><label class="lbl">Footwear <span class="hint">optional</span></label><input type="text" id="footwear" oninput="updateCurrentPreview()"></div>
+    <div><label class="lbl">Footwear <span class="hint">optional</span><button type="button" class="info-ic" data-fi="footwear">i</button></label><input type="text" id="footwear" oninput="updateCurrentPreview()"></div>
     <div class="g2">
-      <div><label class="lbl">Worn instrument <span class="hint">played while worn, e.g. zills</span></label><input type="text" id="wornInstrument" oninput="updateCurrentPreview()"></div>
-      <div><label class="lbl">Hand armor <span class="hint">what's on your hands</span></label><input type="text" id="handArmor" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Worn instrument <span class="hint">played while worn, e.g. zills</span><button type="button" class="info-ic" data-fi="wornInstrument">i</button></label><input type="text" id="wornInstrument" oninput="updateCurrentPreview()"></div>
+      <div><label class="lbl">Hand armor <span class="hint">what's on your hands</span><button type="button" class="info-ic" data-fi="handArmor">i</button></label><input type="text" id="handArmor" oninput="updateCurrentPreview()"></div>
     </div>
     <div class="g2">
       <div>
-        <label class="lbl">Stop hunting if bleeding</label>
+        <label class="lbl">Stop hunting if bleeding<button type="button" class="info-ic" data-fi="stopBleed">i</button></label>
         <div class="toggle-wrap" onclick="togA('stopBleed')"><div class="toggle-track" id="tr-stopBleed"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-stopBleed">No</span></div>
       </div>
       <div>
-        <label class="lbl">Have climbing rope</label>
+        <label class="lbl">Have climbing rope<button type="button" class="info-ic" data-fi="climbRope">i</button></label>
         <div class="toggle-wrap" onclick="togA('climbRope')"><div class="toggle-track" id="tr-climbRope"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-climbRope">No</span></div>
       </div>
     </div>
@@ -4828,6 +4842,69 @@ function startTool(){
   }
   wireKeySuggest('anyKeyInput','any-key-dropdown',addExtraSetting);
   wireKeySuggest('unionKeyInput','union-key-dropdown',addUnionKey);
+})();
+
+// ════════════════════════════════════════════════════════
+//  Field info (ⓘ) popovers — prototype, Character Basics only.
+//  Click the small "i" next to a label for an elaborate
+//  description and whether the setting is required.
+// ════════════════════════════════════════════════════════
+(function(){
+  const FIELD_INFO={
+    charName:{status:'required',desc:"Your character's first name, used only to name the output file — Lich looks for an exact <Name>-setup.yaml, so whatever you type here (capitalized) becomes that filename."},
+    guild:{status:'recommended',desc:"Your character's guild. The form doesn't require one, but most of the rest of the tool — spells, training slots, Guild Settings — only shows up once a guild is picked, since those scripts read different settings per guild."},
+    hometown:{status:'recommended',desc:"Where you consider home. Several settings below (Healer town, Refill town, Sell loot town, Favor town) default to this when left blank. If your hometown is Fang Cove, an override town becomes required."},
+    fangCoveOverrideTown:{status:'required',statusLabel:'Required if Fang Cove',yamlKey:'fang_cove_override_town'},
+    safeRoom:{status:'optional',yamlKey:'safe_room',extra:"Must be a plain room number if filled in — type ids in-game to see it."},
+    forceHealerTown:{status:'optional',yamlKey:'force_healer_town',extra:'Leave blank to use your hometown.'},
+    saferoomHealthThreshold:{status:'optional',yamlKey:'saferoom_health_threshold'},
+    safeRoomEmpath:{status:'optional',desc:"The name of a player empath who can heal you at your safe room, instead of (or alongside) an NPC healer.",extra:"Only written together with Empath's room ID — if either is left blank, neither is."},
+    safeRoomId:{status:'optional',yamlKey:'safe_room_id',extra:"Only written together with Player empath — if either is left blank, neither is."},
+    wornTrashcan:{status:'optional',yamlKey:'worn_trashcan'},
+    wornTrashcanVerb:{status:'optional',yamlKey:'worn_trashcan_verb',extra:'Only written if Worn trashcan above is also set.'},
+    footwear:{status:'optional',yamlKey:'footwear'},
+    wornInstrument:{status:'optional',yamlKey:'worn_instrument'},
+    handArmor:{status:'optional',yamlKey:'hand_armor'},
+    stopBleed:{status:'optional',yamlKey:'stop_hunting_if_bleeding',extra:"Starts on, matching base.yaml's own default."},
+    climbRope:{status:'optional',yamlKey:'have_climbing_rope'}
+  };
+  const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
+  function labelTextOf(btn){
+    const lbl=btn.closest('label'); if(!lbl) return '';
+    let t='';
+    for(const n of lbl.childNodes){ if(n.nodeType===3) t+=n.textContent; else break; }
+    return t.trim();
+  }
+  const pop=document.createElement('div'); pop.className='field-info-pop'; document.body.appendChild(pop);
+  let openBtn=null;
+  function closePop(){ pop.style.display='none'; if(openBtn) openBtn.classList.remove('on'); openBtn=null; }
+  function openPop(btn){
+    if(openBtn===btn){ closePop(); return; }
+    const id=btn.dataset.fi, info=FIELD_INFO[id]; if(!info) return;
+    const title=labelTextOf(btn)||id;
+    const desc=info.desc||(info.yamlKey?keyInfo(info.yamlKey):'')||'No description available yet.';
+    const extra=info.extra?('<br><br>'+t2esc(info.extra)):'';
+    const label=info.statusLabel||STATUS_LABEL[info.status]||'Optional';
+    pop.innerHTML='<div class="fip-title">'+t2esc(title)+'</div><div class="fip-desc">'+t2esc(desc)+extra+'</div><span class="fip-badge '+info.status+'">'+t2esc(label)+'</span>';
+    pop.style.display='block';
+    const r=btn.getBoundingClientRect(), vw=window.innerWidth, vh=window.innerHeight;
+    const w=pop.offsetWidth;
+    let left=Math.min(r.left,vw-w-12); left=Math.max(12,left);
+    pop.style.left=left+'px';
+    const h=pop.offsetHeight;
+    let top=r.bottom+6;
+    if(top+h>vh-12) top=Math.max(12,r.top-h-6);
+    pop.style.top=top+'px';
+    btn.classList.add('on'); openBtn=btn;
+  }
+  document.addEventListener('click',(e)=>{
+    const btn=e.target.closest?e.target.closest('.info-ic'):null;
+    if(btn){ e.preventDefault(); e.stopPropagation(); openPop(btn); return; }
+    if(openBtn&&!pop.contains(e.target)) closePop();
+  });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closePop(); });
+  window.addEventListener('scroll',closePop,true);
+  window.addEventListener('resize',closePop);
 })();
 
 startTool();
