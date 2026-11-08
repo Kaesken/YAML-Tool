@@ -871,32 +871,32 @@ select option{background:var(--bg3)}
     <div class="sec-head">General crafting settings</div>
     <div class="g2">
       <div>
-        <label class="lbl">Workorders repair <span class="hint">repair your crafting tools during workorders</span></label>
+        <label class="lbl">Workorders repair <span class="hint">repair your crafting tools during workorders</span><button type="button" class="info-ic" data-fi="workordersRepair">i</button></label>
         <div class="toggle-wrap" onclick="togA('workordersRepair')"><div class="toggle-track" id="tr-workordersRepair"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-workordersRepair">No</span></div>
       </div>
       <div>
-        <label class="lbl">Retain crafting materials <span class="hint">keep leftover materials instead of dropping them</span></label>
+        <label class="lbl">Retain crafting materials <span class="hint">keep leftover materials instead of dropping them</span><button type="button" class="info-ic" data-fi="retainCraftingMaterials">i</button></label>
         <div class="toggle-wrap" onclick="togA('retainCraftingMaterials')"><div class="toggle-track" id="tr-retainCraftingMaterials"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-retainCraftingMaterials">No</span></div>
       </div>
     </div>
     <div class="g2" style="margin-top:8px">
-      <div><label class="lbl">Workorder difficulty</label>
+      <div><label class="lbl">Workorder difficulty<button type="button" class="info-ic" data-fi="workorderDiff">i</button></label>
       <select id="workorderDiff" onchange="updateCurrentPreview()">
         <option value="">— choose —</option>
         <option>easy</option>
         <option>challenging</option>
         <option>hard</option>
       </select></div>
-      <div><label class="lbl">Crafting container <span class="hint">where materials are stored</span></label>
+      <div><label class="lbl">Crafting container <span class="hint">where materials are stored</span><button type="button" class="info-ic" data-fi="craftingContainer">i</button></label>
       <select id="craftingContainer" onchange="updateCurrentPreview()">
         <option value="">— choose container —</option>
       </select></div>
     </div>
     <div class="g2">
-      <div><label class="lbl">Crafting town <span class="hint">force_crafting_town — for hometowns without a society</span></label><select id="forceCraftingTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
-      <div><label class="lbl">Items kept in the crafting container <span class="hint">crafting_items_in_container, one per line</span></label><textarea id="craftingItemsInContainer" rows="2" oninput="updateCurrentPreview()"></textarea></div>
+      <div><label class="lbl">Crafting town <span class="hint">force_crafting_town — for hometowns without a society</span><button type="button" class="info-ic" data-fi="forceCraftingTown">i</button></label><select id="forceCraftingTown" onchange="updateCurrentPreview()"><option value="">— hometown (default) —</option></select></div>
+      <div><label class="lbl">Items kept in the crafting container <span class="hint">crafting_items_in_container, one per line</span><button type="button" class="info-ic" data-fi="craftingItemsInContainer">i</button></label><textarea id="craftingItemsInContainer" rows="2" oninput="updateCurrentPreview()"></textarea></div>
     </div>
-    <div><div><label class="lbl">Write workorder_recipes <span class="hint">only takes the listed work orders — leave off to accept any</span></label><div class="toggle-wrap" onclick="togA('workorderRecipes')"><div class="toggle-track" id="tr-workorderRecipes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-workorderRecipes">No</span></div></div></div>
+    <div><div><label class="lbl">Write workorder_recipes <span class="hint">only takes the listed work orders — leave off to accept any</span><button type="button" class="info-ic" data-fi="workorderRecipes">i</button></label><div class="toggle-wrap" onclick="togA('workorderRecipes')"><div class="toggle-track" id="tr-workorderRecipes"><div class="toggle-thumb"></div></div><span class="toggle-label" id="lbl-workorderRecipes">No</span></div></div></div>
   </div>
   <div class="section-preview" id="sp-craft-general"><div class="section-preview-head">📋 YAML Preview — General Crafting</div><div class="section-preview-body" id="sp-craft-general-body"></div></div>
 
@@ -3175,10 +3175,10 @@ function renderCraftSections(){
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `<div class="sec-head">${craft.label}</div>
-      <div class="toggle-wrap" onclick="toggleCraft('${craft.key}')">
+      <div style="display:flex;align-items:center"><div class="toggle-wrap" onclick="toggleCraft('${craft.key}')">
         <div class="toggle-track${cs.enabled?' on':''}" id="tr-craft-${craft.key}"><div class="toggle-thumb"></div></div>
         <span class="toggle-label" id="lbl-craft-${craft.key}">${cs.enabled?'Yes':'No'}</span>
-      </div>`;
+      </div><button type="button" class="info-ic" data-fi="craftEnabled">i</button></div>`;
 
     if(cs.enabled){
       const body = document.createElement('div');
@@ -3187,7 +3187,7 @@ function renderCraftSections(){
       // Train-with choice — feeds training_list automatically
       const tm=document.createElement('div');
       tm.style.cssText='margin-bottom:10px';
-      tm.innerHTML=`<label class="lbl">Train with <span class="hint">workorders = training + prestige · craft = training only</span></label>
+      tm.innerHTML=`<label class="lbl">Train with <span class="hint">workorders = training + prestige · craft = training only</span><button type="button" class="info-ic" data-fi="craftTrainMethod">i</button></label>
         <select onchange="S.crafting['${craft.key}'].trainMethod=this.value;updateCurrentPreview()">
           <option value="workorders"${cs.trainMethod!=='craft'?' selected':''}>workorders (training + prestige)</option>
           <option value="craft"${cs.trainMethod==='craft'?' selected':''}>craft (training only)</option>
@@ -3200,7 +3200,10 @@ function renderCraftSections(){
       beltTogDiv.style.cssText='display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:10px';
       beltTogDiv.innerHTML=`<div class="toggle-track toggle-mini${cs.useBelt?' on':''}" id="craft-belt-tog-${craft.key}"><div class="toggle-thumb"></div></div>
         <span style="font-size:13px;color:var(--text2)">Has toolbelt</span>`;
-      beltTogDiv.onclick=()=>{ S.crafting[craft.key].useBelt=!S.crafting[craft.key].useBelt;
+      const beltInfoBtn=document.createElement('button');
+      beltInfoBtn.type='button'; beltInfoBtn.className='info-ic'; beltInfoBtn.dataset.fi='craftUseBelt'; beltInfoBtn.textContent='i';
+      beltTogDiv.appendChild(beltInfoBtn);
+      beltTogDiv.onclick=(ev)=>{ if(ev.target.closest('.info-ic')) return; S.crafting[craft.key].useBelt=!S.crafting[craft.key].useBelt;
         if(craft.toolsAlwaysRequired&&S.crafting[craft.key].useBelt){
           // Forging: sync belt items into tools
           syncForgingToolsFromBelt();
@@ -3216,7 +3219,7 @@ function renderCraftSections(){
         body.appendChild(beltHead);
         const nameDiv=document.createElement('div');
         nameDiv.style.cssText='margin-bottom:6px';
-        nameDiv.innerHTML=`<label class="lbl">Belt name <span class="hint">adjective noun</span></label>
+        nameDiv.innerHTML=`<label class="lbl">Belt name <span class="hint">adjective noun</span><button type="button" class="info-ic" data-fi="craftBeltName">i</button></label>
           <input type="text" id="craft-${craft.key}-beltname" value="${escHtml(cs.beltName)}" oninput="S.crafting['${craft.key}'].beltName=this.value;updateCraftPreview('${craft.key}')">`;
         body.appendChild(nameDiv);
         const beltItemsHead=document.createElement('div');
@@ -5048,7 +5051,20 @@ function startTool(){
     g_astroPredOffense:{status:'optional',desc:"astrology_prediction_skills.offense — skill to use for the Offense prediction category."},
     g_astroPredDefense:{status:'optional',desc:"astrology_prediction_skills.defense — skill to use for the Defense prediction category."},
     g_astroPredSurvival:{status:'optional',desc:"astrology_prediction_skills.survival — skill to use for the Survival prediction category."},
-    g_summonedElement:{status:'optional',desc:"summoned_weapons_element — the element your summoned weapons are conjured from."}
+    g_summonedElement:{status:'optional',desc:"summoned_weapons_element — the element your summoned weapons are conjured from."},
+
+    workordersRepair:{status:'optional',yamlKey:'workorders_repair',extra:'Starts on, matching base.yaml.'},
+    retainCraftingMaterials:{status:'optional',yamlKey:'retain_crafting_materials'},
+    workorderDiff:{status:'optional',yamlKey:'workorder_diff',extra:'easy, challenging, or hard.'},
+    craftingContainer:{status:'recommended',yamlKey:'crafting_container'},
+    forceCraftingTown:{status:'optional',yamlKey:'force_crafting_town',extra:'Only needed if your hometown has no society for this craft.'},
+    craftingItemsInContainer:{status:'optional',yamlKey:'crafting_items_in_container'},
+    workorderRecipes:{status:'optional',desc:"When on, only the specific work orders checked for each enabled discipline below are accepted (written to workorder_recipes). Leave off to accept any work order."},
+
+    craftEnabled:{status:'optional',title:'Enable this discipline',desc:"Turns on this crafting discipline as a training activity. When on, its belt/tools and training settings below are written into your YAML."},
+    craftTrainMethod:{status:'optional',title:'Train with',desc:"Whether this discipline trains through workorders (training plus prestige/coin) or plain crafting (training only, no workorders)."},
+    craftUseBelt:{status:'optional',title:'Has toolbelt',desc:"Whether you keep this discipline's tools on a dedicated toolbelt. When on, scripts use the belt's name to untie/retie it instead of pulling tools individually."},
+    craftBeltName:{status:'optional',title:'Belt name',desc:"The adjective and noun of your toolbelt (e.g. 'leather tool belt'), so scripts can address it by name when untying/retying tools."}
   };
   const STATUS_LABEL={required:'Required',recommended:'Recommended',optional:'Optional'};
   function labelTextOf(btn){
