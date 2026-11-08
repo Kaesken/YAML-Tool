@@ -72,6 +72,11 @@ select option{background:var(--bg3)}
 .hz-option:hover{background:var(--blue3)}
 .hz-option .hz-rank{color:var(--text2);font-size:12px;white-space:nowrap;flex-shrink:0}
 .hz-empty{padding:8px 10px;color:var(--text3);font-size:12px}
+.hz-option.cur{color:var(--text);font-weight:600}
+.cs-wrap{position:relative}
+.cs-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  color:var(--text2);font-size:10px;pointer-events:none}
+.cs-disp{cursor:pointer;padding-right:24px!important}
 .spell-chip{background:var(--bg3);border:1px solid var(--border);border-radius:4px;
   color:var(--text2);padding:4px 10px;font-size:13px;cursor:pointer;font-family:var(--mono);
   margin:0 4px 4px 0;transition:all .15s;display:inline-block}
@@ -4689,6 +4694,90 @@ function startTool(){
   updateCurrentPreview();
   loadDrData();
 }
+
+// ════════════════════════════════════════════════════════
+//  Every <select> gets the same searchable dropdown the
+//  hunting-zone picker uses, instead of the native popup.
+// ════════════════════════════════════════════════════════
+(function(){
+  const displays=[];
+  function currentLabel(sel){ const o=sel.selectedOptions&&sel.selectedOptions[0]; return o?o.textContent:''; }
+  function closeDD(dd){ dd.style.display='none'; }
+  function renderOptions(sel,disp,dd,filter){
+    const q=(filter||'').trim().toLowerCase();
+    const opts=[...sel.options];
+    const matches=q?opts.filter(o=>o.textContent.toLowerCase().includes(q)):opts;
+    dd.innerHTML='';
+    if(!matches.length){
+      const e=document.createElement('div'); e.className='hz-empty'; e.textContent='No matches';
+      dd.appendChild(e);
+    }else{
+      matches.forEach(o=>{
+        const row=document.createElement('div'); row.className='hz-option'+(o.value===sel.value?' cur':'');
+        row.textContent=o.textContent;
+        row.onmousedown=(ev)=>{ ev.preventDefault(); };
+        row.onclick=()=>{
+          sel.value=o.value;
+          sel.dispatchEvent(new Event('change',{bubbles:true}));
+          disp.value=o.textContent;
+          closeDD(dd);
+        };
+        dd.appendChild(row);
+      });
+    }
+    dd.style.display='';
+  }
+  function enhanceSelect(sel){
+    if(sel.dataset.csEnhanced) return;
+    sel.dataset.csEnhanced='1';
+    const wrap=document.createElement('div'); wrap.className='cs-wrap';
+    const styleAttr=sel.getAttribute('style');
+    wrap.setAttribute('style',(styleAttr?styleAttr+';':'')+'position:relative');
+    sel.parentNode.insertBefore(wrap,sel);
+    wrap.appendChild(sel);
+    sel.style.cssText='display:none';
+    const disp=document.createElement('input');
+    disp.type='text'; disp.autocomplete='off'; disp.className='cs-disp';
+    disp.style.width='100%'; disp.style.marginBottom='0';
+    disp.value=currentLabel(sel);
+    wrap.appendChild(disp);
+    const dd=document.createElement('div'); dd.className='hz-dropdown'; dd.style.display='none';
+    wrap.appendChild(dd);
+    function openDD(){ renderOptions(sel,disp,dd,''); disp.select(); }
+    disp.addEventListener('focus',openDD);
+    disp.addEventListener('click',()=>{ if(dd.style.display==='none') openDD(); });
+    disp.addEventListener('input',()=>renderOptions(sel,disp,dd,disp.value));
+    disp.addEventListener('blur',()=>setTimeout(()=>{ closeDD(dd); disp.value=currentLabel(sel); },120));
+    disp.addEventListener('keydown',(ev)=>{
+      if(ev.key==='Escape'){ closeDD(dd); disp.value=currentLabel(sel); disp.blur(); }
+      else if(ev.key==='Enter'){
+        ev.preventDefault();
+        if(disp.value.trim()){ const first=dd.querySelector('.hz-option'); if(first) first.click(); }
+        else { closeDD(dd); disp.blur(); }
+      }
+    });
+    disp.csSync=()=>{ if(document.activeElement!==disp) disp.value=currentLabel(sel); };
+    displays.push(disp);
+  }
+  function enhanceAll(root){ root.querySelectorAll('select').forEach(enhanceSelect); }
+  window.syncAllSelectDisplays=function(){ displays.forEach(d=>d.csSync()); };
+  const origUpdateCurrentPreview=updateCurrentPreview;
+  updateCurrentPreview=function(){ origUpdateCurrentPreview.apply(this,arguments); window.syncAllSelectDisplays(); };
+  enhanceAll(document);
+  new MutationObserver(muts=>{
+    for(const m of muts) for(const n of m.addedNodes){
+      if(n.nodeType!==1) continue;
+      if(n.matches&&n.matches('select')) enhanceSelect(n);
+      if(n.querySelectorAll) n.querySelectorAll('select').forEach(enhanceSelect);
+    }
+  }).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('mousedown',(e)=>{
+    document.querySelectorAll('.cs-wrap').forEach(w=>{
+      const dd=w.querySelector('.hz-dropdown');
+      if(dd&&dd.style.display!=='none'&&!w.contains(e.target)) closeDD(dd);
+    });
+  });
+})();
 
 startTool();
 
