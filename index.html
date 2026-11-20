@@ -905,22 +905,8 @@ select option{background:var(--bg3)}
   <hr style="border:none;border-top:2px solid var(--border);margin:24px 0">
   <div style="font-size:13px;color:var(--blue);font-weight:bold;letter-spacing:.05em;text-transform:uppercase;margin-bottom:14px">🧩 Any other setting</div>
   <div class="card">
-    <div class="sec-head">Add any base.yaml setting</div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Every key in dr-scripts' <b>base.yaml</b> can be set here. Pick a key; it starts with base.yaml's value, which you edit as YAML. Settings made in the sections above win over this list. See <a href="lich-yaml-settings.html" target="_blank" rel="noopener" style="color:var(--blue2)">the settings index</a> for what each key does.</p>
-    <datalist id="any-key-list"></datalist>
-    <div style="display:flex;gap:7px;margin-bottom:8px">
-      <div style="flex:1;position:relative">
-        <input type="text" id="anyKeyInput" autocomplete="off" placeholder="start typing a setting name" style="width:100%;margin-bottom:0" onkeydown="if(event.key==='Enter')addExtraSetting()">
-        <div id="any-key-dropdown" class="hz-dropdown" style="display:none"></div>
-      </div>
-      <button class="btn small primary" onclick="addExtraSetting()">Add</button>
-    </div>
-    <div id="extra-settings"></div>
-  </div>
-  <div class="card">
-    <div class="sec-head">Browse base.yaml by section <span class="hint">combat, hunting, T2, crafting, skill scripts and more</span></div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Open a section and tick a setting to add it. Ticked settings appear in the list above.</p>
-    <div id="common-key-groups"></div>
+    <div class="sec-head">Other settings</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:0">Looking for a setting this tool doesn't cover? Find it in the <a href="lich-yaml-settings.html" target="_blank" rel="noopener" style="color:var(--blue2)">YAML Settings Index</a>, use its <b>Copy as YAML</b> button, and paste it into <b>Extra YAML</b> below.</p>
   </div>
   <div class="card">
     <div class="sec-head">Shared files <span class="hint">include / union_keys</span></div>
